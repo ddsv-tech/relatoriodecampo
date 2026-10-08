@@ -14,8 +14,8 @@ html{scroll-padding-top:env(safe-area-inset-top,0px)}
 body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.4 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
 main{max-width:640px;margin:0 auto;padding:16px}
 h1{font-size:1.3rem;margin:4px 0 12px}
-nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
-nav button{flex:1 1 40%;padding:10px;border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:10px;font:inherit;cursor:pointer}
+nav{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;grid-auto-flow:column;gap:8px;margin-bottom:16px}
+nav button{font-weight:600;line-height:1.2;padding:10px;border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:10px;font:inherit;cursor:pointer}
 nav button.on{background:var(--ac);color:var(--acx);border-color:var(--ac)}
 .card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:16px;margin-bottom:16px}
 .total{font-size:2.4rem;font-weight:700;color:var(--ac)}
@@ -51,12 +51,29 @@ body:not(.cv) #cover{display:none}
 .hm,.hh{transform-origin:60px 60px;animation:spin 1.2s linear infinite}.hh{animation-duration:9s}
 @media (prefers-reduced-motion:reduce){.hm,.hh,.st,.st svg,.lg,.arm{animation:none}.st{left:30%}}
 @media print{.cover{display:none}}
+label{font-size:1rem;font-weight:700;color:var(--tx);margin:14px 0 6px;border-left:4px solid var(--ac);padding-left:8px}
+.card strong{font-size:1.1rem;color:var(--ac)}
+.cap{font-size:1.05rem;font-weight:700;color:var(--tx)}
+.total .cap{font-weight:700}
+.back{padding:10px 16px;border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:12px;font:inherit;font-weight:600;margin-bottom:14px;cursor:pointer}
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:8px 0 12px}
+.mcol{display:flex;flex-direction:column;gap:12px}
+.gh{font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
+.mb{display:flex;flex-direction:column;align-items:flex-start;gap:8px;width:100%;min-height:128px;padding:16px;border-radius:18px;font:inherit;text-align:left;cursor:pointer;box-shadow:0 6px 16px rgba(0,0,0,.14);transition:transform .15s}
+.mb:active{transform:scale(.97)}
+.mb svg{width:30px;height:30px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.mb .mt{font-weight:700;font-size:1.05rem;line-height:1.2}
+.mb .ms{font-size:.8rem;opacity:.85;line-height:1.25}
+.mb.p{border:0;color:var(--acx);background:linear-gradient(160deg,rgba(255,255,255,.18),rgba(0,0,0,.12)),var(--ac)}
+.mb.s{border:2px solid var(--ac);color:var(--tx);background:var(--card)}
+.mb.s svg{color:var(--ac)}
+.mb.mw{flex-direction:row;align-items:center;min-height:0;gap:14px}
 </style>
 </head>
 <body class="cv">
 <main>
 <h1>⏱️ Relatório de Campo</h1>
-<nav class="noprint"><button id="bd" class="on">Painel</button><button id="br">Relatório</button><button id="bh">Registro de Horas</button><button id="bs">Registro de Estudos</button></nav>
+<button class="back noprint hide" id="back">← Menu principal</button>
 
 <section id="cover" class="cover">
   <svg viewBox="0 0 120 120" style="width:140px;margin:0 auto" role="img" aria-label="Relógio girando">
@@ -72,9 +89,37 @@ body:not(.cv) #cover{display:none}
   <button class="btn" id="enter" style="margin:0">Entrar</button>
 </section>
 
+<section id="menu" class="hide">
+  <div class="mgrid">
+    <div class="mcol"><div class="gh">Registrar</div>
+      <button class="mb p" data-go="home"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span class="mt">Registrar Atividade</span><span class="ms">Data, horas e companheiro</span></button>
+      <button class="mb p" data-go="est"><svg viewBox="0 0 24 24"><path d="M4 19V5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM8 7h7"/></svg><span class="mt">Registrar Estudos do Mês</span><span class="ms">Estudos dirigidos no mês</span></button>
+    </div>
+    <div class="mcol"><div class="gh">Consultar</div>
+      <button class="mb s" data-go="dash"><svg viewBox="0 0 24 24"><path d="M5 20V11M12 20V4M19 20v-6M2 20h20"/></svg><span class="mt">Visão Geral</span><span class="ms">Mês, média e meta</span></button>
+      <button class="mb s" data-go="rep"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h7"/></svg><span class="mt">Relatório de Atividades</span><span class="ms">Por mês, com PDF</span></button>
+    </div>
+  </div>
+  <button class="mb s mw" data-go="bk"><svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v3h16v-3"/></svg><span><span class="mt" style="display:block">Backup</span><span class="ms">Salvar e restaurar seus dados</span></span></button>
+</section>
+
+<section id="bk" class="hide">
+  <div class="card">
+    <strong>Backup</strong>
+    <div class="mut" style="margin:4px 0 8px">Para trocar de aparelho: gere o backup aqui e restaure no novo.</div>
+    <div class="row"><button class="btn" style="margin:0" id="bkg">Gerar backup</button><button class="btn" style="margin:0;background:var(--bd);color:var(--tx)" id="bkr">Restaurar backup</button></div>
+    <input type="file" id="bkf" accept=".json,application/json" class="hide">
+    <details style="margin-top:12px"><summary class="mut">Usar texto (copiar / colar)</summary>
+      <textarea id="bkt" rows="4" style="width:100%;margin-top:8px;padding:10px;border:1px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx);font:12px monospace" placeholder="O backup aparece aqui. Para restaurar, cole o texto e toque no botão abaixo."></textarea>
+      <button class="btn" style="margin-top:8px;background:var(--bd);color:var(--tx)" id="bkp">Restaurar do texto</button>
+    </details>
+    <div id="bkm" class="mut" style="margin-top:8px"></div>
+  </div>
+</section>
+
 <section id="dash">
-  <div class="card"><div class="mut" id="dml">Mês atual</div><div class="total" id="dm">0h 00min</div><div class="mut" id="dme"></div></div>
-  <div class="card"><div class="mut">Média mensal do ano</div><div class="total" id="da">0h 00min</div><div class="mut" id="dal"></div></div>
+  <div class="card"><div class="cap" id="dml">Mês atual</div><div class="total" id="dm">0h 00min</div><div class="mut" id="dme"></div></div>
+  <div class="card"><div class="cap">Média mensal do ano</div><div class="total" id="da">0h 00min</div><div class="mut" id="dal"></div></div>
   <div class="card">
     <strong>Meta</strong>
     <div class="row">
@@ -92,29 +137,16 @@ body:not(.cv) #cover{display:none}
       <text id="gt" x="100" y="124" text-anchor="middle" font-size="14" font-weight="700" fill="var(--tx)">0%</text>
     </svg>
   </div>
-  <button class="btn" id="go">Registrar horas →</button>
-  <div class="card" style="margin-top:16px">
-    <strong>Backup</strong>
-    <div class="mut" style="margin:4px 0 8px">Para trocar de aparelho: gere o backup aqui e restaure no novo.</div>
-    <div class="row"><button class="btn" style="margin:0" id="bkg">Gerar backup</button><button class="btn" style="margin:0;background:var(--bd);color:var(--tx)" id="bkr">Restaurar backup</button></div>
-    <input type="file" id="bkf" accept=".json,application/json" class="hide">
-    <details style="margin-top:12px"><summary class="mut">Usar texto (copiar / colar)</summary>
-      <textarea id="bkt" rows="4" style="width:100%;margin-top:8px;padding:10px;border:1px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx);font:12px monospace" placeholder="O backup aparece aqui. Para restaurar, cole o texto e toque no botão abaixo."></textarea>
-      <button class="btn" style="margin-top:8px;background:var(--bd);color:var(--tx)" id="bkp">Restaurar do texto</button>
-    </details>
-    <div id="bkm" class="mut" style="margin-top:8px"></div>
-  </div>
 </section>
 
 <section id="home" class="hide">
   <div class="card">
-    <div class="mut">Total dedicado</div>
+    <div class="cap" id="tl">Total do mês</div>
     <div class="total" id="tot">0h 00min</div>
     <div class="mut" id="cnt">0 registros</div>
-    <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--bd)"><div class="mut" id="yl">Ano</div><div style="font-size:1.4rem;font-weight:700" id="yh">0h 00min</div></div>
   </div>
   <div class="card">
-    <strong id="ft">Novo registro</strong>
+    <strong id="ft">Registrar Atividade</strong>
     <label for="d">Data</label><input type="date" id="d">
     <div class="row">
       <div><label for="h">Horas</label><input type="number" id="h" min="0" inputmode="numeric" placeholder="0"></div>
@@ -126,12 +158,12 @@ body:not(.cv) #cover{display:none}
     <button class="btn" id="save">Adicionar</button>
     <button class="btn hide" id="cancel" style="background:var(--bd);color:var(--tx);margin-top:8px">Cancelar edição</button>
   </div>
-  <div class="card recent"><strong>Últimos registros</strong><div id="rec" class="mut">Nada ainda.</div></div>
+  <div class="card recent"><strong>Último registro</strong><div id="rec" class="mut">Nada ainda.</div></div>
 </section>
 
 <section id="est" class="hide">
   <div class="card">
-    <strong id="et">Registro de Estudos</strong>
+    <strong id="et">Registrar Estudos do Mês</strong>
     <label for="em">Mês</label><input type="month" id="em">
     <label for="en">Total de estudos diferentes dirigidos no mês</label><input type="number" id="en" min="0" inputmode="numeric" placeholder="0">
     <div class="mut" style="margin-top:6px">Salvar um mês que já existe substitui o valor.</div>
@@ -144,17 +176,7 @@ body:not(.cv) #cover{display:none}
 </section>
 
 <section id="rep" class="hide">
-  <div class="card noprint">
-    <div class="row">
-      <div><label for="fy">Ano (set → ago)</label><select id="fy"></select></div>
-      <div><label for="fm">Mês</label><select id="fm"></select></div>
-    </div>
-    <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--bd)"><strong>Período personalizado</strong>
-      <div class="row"><div><label for="rf">De</label><input type="date" id="rf"></div><div><label for="rto">Até</label><input type="date" id="rto"></div></div>
-      <div class="mut" style="margin-top:6px">Se preencher De e/ou Até, o relatório e o PDF usam esse período no lugar do ano e mês.</div>
-      <button class="btn" style="margin-top:10px;background:var(--bd);color:var(--tx)" id="rclr">Limpar período</button>
-    </div>
-  </div>
+  <div class="card noprint"><label for="fm" style="margin-top:0">Mês</label><select id="fm"></select></div>
   <div class="card">
     <strong id="yt">Totais por mês</strong>
     <div class="tw"><table><thead><tr><th>Mês</th><th>Horas</th><th>Estudos</th></tr></thead><tbody id="mt"></tbody>
@@ -169,7 +191,7 @@ body:not(.cv) #cover{display:none}
     <div class="tw"><table>
       <thead><tr><th class="noprint"></th><th>Data</th><th>Atividade</th><th>Companheiro</th><th>Tempo</th></tr></thead>
       <tbody id="tb"></tbody>
-      <tfoot><tr><td class="noprint"></td><td colspan="3">Total do filtro</td><td id="tt">0h 00min</td></tr></tfoot>
+      <tfoot><tr><td class="noprint"></td><td colspan="3">Total do mês</td><td id="tt">0h 00min</td></tr></tfoot>
     </table></div>
   </div>
 </section>
@@ -187,7 +209,7 @@ const $=id=>document.getElementById(id);
   const tote=`<rect x="14" y="30" width="7" height="10" rx=".8" transform="rotate(-10 17 40)" style="fill:var(--mut)"/><rect x="21" y="31" width="5" height="9" rx=".6" transform="rotate(10 23 40)"/><rect x="11" y="36" width="19" height="11" rx="1.5" ${AC}/><path d="M16.5 36q4-6 8 0" fill="none" stroke="var(--ac)" stroke-width="2"/>`;
   const woman=`<svg viewBox="0 -22 50 92" width="61" height="112" style="margin-left:-68px"><path d="M15 6Q3 10 7 31Q13 23 16 15Z"/><circle cx="20" cy="8.5" r="6.6"/><path d="M16 17H24L23 27L32 46Q20 50 8 46L17 27Z"/>${legs(46,3.5)}<g class="arm" style="transform-origin:20px 20px"><line x1="20" y1="20" x2="20" y2="36" stroke-width="3.5"/>${tote}</g><line x1="20" y1="20" x2="26" y2="34" stroke-width="3.5"/>${umb(26,-10,46,16)}</svg>`;
   $('lane').innerHTML=`<div class="st">${man}${woman}</div>`;
-  $('enter').onclick=()=>{document.body.classList.remove('cv');show('dash');scrollTo(0,0)};
+  $('enter').onclick=()=>{document.body.classList.remove('cv');show('menu')};
 })();
 const MES=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 const ORD=[9,10,11,12,1,2,3,4,5,6,7,8];
@@ -205,10 +227,11 @@ const mOf=d=>+d.split('-')[1];
 const today=()=>new Date().toLocaleDateString('sv');
 function render(){
   const sorted=[...items].sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);
-  const sum=items.reduce((s,i)=>s+i.min,0);
-  $('tot').textContent=fmt(sum);
-  $('cnt').textContent=items.length+(items.length===1?' registro':' registros');
-  $('rec').innerHTML=sorted.length?sorted.slice(0,3).map(i=>`<div><span>${fd(i.date)} · ${esc(i.act)}</span><span>${fmt(i.min)}</span></div>`).join(''):'Nada ainda.';
+  const cm=today().slice(0,7),mi=sorted.filter(i=>i.date.slice(0,7)===cm);
+  $('tl').textContent='Total de '+MES[+cm.slice(5)-1]+' de '+cm.slice(0,4);
+  $('tot').textContent=fmt(mi.reduce((s,i)=>s+i.min,0));
+  $('cnt').textContent=mi.length+(mi.length===1?' registro':' registros')+' no mês';
+  $('rec').innerHTML=mi.length?`<div><span>${fd(mi[0].date)} · ${esc(mi[0].act)}</span><span>${fmt(mi[0].min)}</span></div>`:'Nenhum registro neste mês.';
   // painel
   const t0=today(),cy=yOf(t0),idx=ORD.indexOf(mOf(t0))+1;
   const mt=items.filter(i=>i.date.slice(0,7)===t0.slice(0,7)).reduce((s,i)=>s+i.min,0);
@@ -225,16 +248,14 @@ function render(){
   $('ga').setAttribute('stroke-dasharray',pc+' 100');$('ga').style.display=pc>0?'':'none';
   $('gn').setAttribute('transform','rotate('+(-90+pc*1.8)+' 100 100)');
   $('gt').textContent=Math.round(pc)+'%';$('gmx').textContent=gm>0?Math.round(gm/60)+'h':'';
-  // anos
-  const ys=new Set(items.map(i=>yOf(i.date)));ys.add(yOf(today()));
-  const yl=[...ys].sort((a,b)=>b-a);
-  if(fy===null||!ys.has(fy))fy=yOf(today());
-  $('fy').innerHTML=yl.map(y=>`<option value="${y}"${y==fy?' selected':''}>Set/${y} – Ago/${y+1}</option>`).join('');
-  $('fm').innerHTML='<option value="all">Todo o ano</option>'+ORD.map(m=>`<option value="${m}"${m==fm?' selected':''}>${MES[m-1]} de ${m>=9?fy:fy+1}</option>`).join('');
+  const mset=new Set([...items.map(i=>i.date.slice(0,7)),...studies.map(x=>x.ym),today().slice(0,7)]);
+  if(!mset.has(fm))fm=today().slice(0,7);
+  $('fm').innerHTML=[...mset].sort().reverse().map(ym=>{const[y,m]=ym.split('-');return `<option value="${ym}"${ym===fm?' selected':''}>${MES[+m-1]} de ${y}</option>`}).join('');
+  fy=yOf(fm+'-01');
   // totais por mês
   const yi=items.filter(i=>yOf(i.date)===fy);
-  const rf=$('rf').value,rto=$('rto').value,rng=!!(rf||rto),inR=d=>(!rf||d>=rf)&&(!rto||d<=rto);
-  const yt=yi.reduce((s,i)=>s+i.min,0);$('ytot').textContent=fmt(yt);$('yh').textContent=fmt(yt);$('yl').textContent=`Total do ano · Set/${fy} – Ago/${fy+1}`;
+  const rf='',rto='',rng=false,inR=()=>true;
+  const yt=yi.reduce((s,i)=>s+i.min,0);$('ytot').textContent=fmt(yt);
   const pl=rng?`${rf?fd(rf):'início'} – ${rto?fd(rto):'hoje'}`:`Set/${fy} – Ago/${fy+1}`;
   let rows=[];
   if(rng){const all=[...items.map(i=>i.date.slice(0,7)),...studies.map(x=>x.ym),today().slice(0,7)].sort();let a=rf?rf.slice(0,7):all[0];const z=rto?rto.slice(0,7):all[all.length-1];
@@ -246,22 +267,22 @@ function render(){
   const sl=[...studies].sort((a,b)=>b.ym.localeCompare(a.ym));
   $('sl').innerHTML=sl.map(x=>{const[y,m]=x.ym.split('-');return `<tr><td class="noprint act">${pendS===x.ym?`<button class="x" style="font-size:.9rem;font-weight:700" data-sok="${x.ym}">Excluir?</button><button class="x e" style="font-size:.9rem" data-sno="1">Não</button>`:`<button class="x e" data-sed="${x.ym}" aria-label="Editar">✎</button><button class="x" data-sid="${x.ym}" aria-label="Excluir">✕</button>`}</td><td>${MES[+m-1]} de ${y}</td><td>${x.n}</td></tr>`}).join('')||'<tr><td colspan="3" class="mut">Nada ainda.</td></tr>';
   // relatório filtrado
-  const fl=rng?sorted.filter(i=>inR(i.date)):sorted.filter(i=>yOf(i.date)===fy&&(fm==='all'||mOf(i.date)==fm));
+  const fl=sorted.filter(i=>i.date.slice(0,7)===fm);
   $('tt').textContent=fmt(fl.reduce((s,i)=>s+i.min,0));
-  $('rt').textContent='Relatório · '+(rng?pl:fm==='all'?'Todo o ano':MES[fm-1]);
+  $('rt').textContent='Relatório · '+MES[+fm.slice(5)-1]+' de '+fm.slice(0,4);
   $('tb').innerHTML=fl.map(i=>`<tr><td class="noprint act">${pend===i.id?`<button class="x" style="font-size:.9rem;font-weight:700" data-ok="${i.id}">Excluir?</button><button class="x e" style="font-size:.9rem" data-no="1">Não</button>`:`<button class="x e" data-ed="${i.id}" aria-label="Editar">✎</button><button class="x" data-id="${i.id}" aria-label="Excluir">✕</button>`}</td><td>${fd(i.date)}</td><td class="w">${esc(i.act)}</td><td class="w">${esc(i.com||'—')}</td><td>${fmt(i.min)}</td></tr>`).join('')||'<tr><td colspan="5" class="mut">Sem registros neste filtro.</td></tr>';
 }
-function show(v){[['dash','bd'],['home','bh'],['est','bs'],['rep','br']].forEach(([a,b])=>{$(a).classList.toggle('hide',v!==a);$(b).classList.toggle('on',v===a)})}
-$('bd').onclick=()=>show('dash');$('go').onclick=()=>show('home');$('bh').onclick=()=>show('home');$('bs').onclick=()=>show('est');$('br').onclick=()=>show('rep');
-$('fy').onchange=e=>{fy=+e.target.value;fm='all';render()};
+function show(v){['menu','dash','home','est','rep','bk'].forEach(a=>$(a).classList.toggle('hide',v!==a));$('back').classList.toggle('hide',v==='menu');scrollTo(0,0)}
+document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>show(b.dataset.go));
+$('back').onclick=()=>show('menu');
 $('fm').onchange=e=>{fm=e.target.value;render()};
-$('rf').oninput=$('rto').oninput=render;
-$('rclr').onclick=()=>{$('rf').value=$('rto').value='';render()};
-function resetForm(){editId=null;['h','m','a','c'].forEach(k=>$(k).value='');$('d').value=today();$('ft').textContent='Novo registro';$('save').textContent='Adicionar';$('cancel').classList.add('hide');$('err').textContent=''}
+function resetForm(){editId=null;['h','m','a','c'].forEach(k=>$(k).value='');$('d').value=today();lockDate(true);$('ft').textContent='Registrar Atividade';$('save').textContent='Adicionar';$('cancel').classList.add('hide');$('err').textContent=''}
 $('d').value=today();
+const lockDate=on=>{const t=today(),n=new Date(+t.slice(0,4),+t.slice(5,7),0).getDate();$('d').min=on?t.slice(0,7)+'-01':'';$('d').max=on?t.slice(0,7)+'-'+String(n).padStart(2,'0'):''};
+lockDate(true);
 $('save').onclick=()=>{
   const h=parseInt($('h').value)||0,m=parseInt($('m').value)||0,act=$('a').value.trim(),d=$('d').value;
-  const e=!d?'Informe a data.':!act?'Informe a atividade.':(h*60+m)<=0?'Informe horas e/ou minutos.':'';
+  const e=!d?'Informe a data.':(!editId&&d.slice(0,7)!==today().slice(0,7))?'A data deve ser do mês vigente.':!act?'Informe a atividade.':(h*60+m)<=0?'Informe horas e/ou minutos.':'';
   $('err').textContent=e;if(e)return;
   const r={date:d,min:h*60+m,act,com:$('c').value.trim()};
   if(editId){items=items.map(i=>i.id===editId?{...i,...r}:i)}else{items.push({id:Date.now(),...r})}
@@ -270,7 +291,7 @@ $('save').onclick=()=>{
 $('cancel').onclick=resetForm;
 $('tb').onclick=e=>{
   const ed=e.target.dataset.ed,id=e.target.dataset.id;
-  if(ed){const i=items.find(x=>x.id==ed);editId=i.id;$('d').value=i.date;$('h').value=Math.floor(i.min/60);$('m').value=i.min%60;$('a').value=i.act;$('c').value=i.com||'';$('ft').textContent='Editar registro';$('save').textContent='Salvar alterações';$('cancel').classList.remove('hide');show('home');scrollTo(0,0)}
+  if(ed){const i=items.find(x=>x.id==ed);editId=i.id;$('d').value=i.date;$('h').value=Math.floor(i.min/60);$('m').value=i.min%60;$('a').value=i.act;$('c').value=i.com||'';lockDate(false);$('ft').textContent='Editar Atividade';$('save').textContent='Salvar alterações';$('cancel').classList.remove('hide');show('home');scrollTo(0,0)}
   else if(id){pend=+id;render()}
   else if(e.target.dataset.ok){const k=+e.target.dataset.ok;items=items.filter(i=>i.id!==k);if(editId===k)resetForm();pend=null;persist();render()}
   else if(e.target.dataset.no){pend=null;render()}
@@ -282,10 +303,10 @@ $('bkg').onclick=async()=>{
   const txt=JSON.stringify({app:'registro-de-tempo',v:2,items,studies,meta},null,1);
   $('bkt').value=txt;
   try{
-    const dl=window.claude&&await claude.use('downloads');
-    if(!dl)throw 0;
-    await dl.save({filename:'backup-tempo-'+today()+'.json',data:txt});
-    bm('Backup gerado.');
+    const u=URL.createObjectURL(new Blob([txt],{type:'application/json'}));
+    const l=document.createElement('a');l.href=u;l.download='backup-tempo-'+today()+'.json';
+    document.body.appendChild(l);l.click();l.remove();setTimeout(()=>URL.revokeObjectURL(u),2000);
+    bm('Backup gerado. Verifique a pasta de downloads.');
   }catch(e){bm('Não foi possível baixar o arquivo. Abra "Usar texto" abaixo e copie o conteúdo.');$('bkt').closest('details').open=true}
 };
 function restore(txt){
@@ -310,11 +331,11 @@ $('es').onclick=()=>{
   const e=!ym?'Escolha o mês.':isNaN(n)||n<0?'Informe o total de estudos.':'';
   $('eerr').textContent=e;if(e)return;
   const x=studies.find(z=>z.ym===ym);if(x)x.n=n;else studies.push({ym,n});
-  persistS();$('en').value='';$('et').textContent='Registro de Estudos';render();
+  persistS();$('en').value='';$('et').textContent='Registrar Estudos do Mês';render();
 };
 $('sl').onclick=e=>{
   const d=e.target.dataset;
-  if(d.sed){const x=studies.find(z=>z.ym===d.sed);$('em').value=x.ym;$('en').value=x.n;$('et').textContent='Editar mês';scrollTo(0,0)}
+  if(d.sed){const x=studies.find(z=>z.ym===d.sed);$('em').value=x.ym;$('en').value=x.n;$('et').textContent='Editar Estudos do Mês';scrollTo(0,0)}
   else if(d.sid){pendS=d.sid;render()}
   else if(d.sok){studies=studies.filter(z=>z.ym!==d.sok);pendS=null;persistS();render()}
   else if(d.sno){pendS=null;render()}
