@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#2f6f5e"><link rel="manifest" href="manifest.json"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png">
+<meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Relatório de Campo">
 <title>Relatório de Campo</title>
 <style>
 :root{--bg:#f6f5f2;--card:#fff;--tx:#1d1d1b;--mut:#6b6a66;--ac:#2f6f5e;--acx:#fff;--bd:#e2e0da;--dg:#b3392f;
@@ -35,9 +37,9 @@ tfoot td{font-weight:700;border-bottom:0}
 
 .cv nav,.cv h1,.cv main>section:not(#cover){display:none}
 body:not(.cv) #cover{display:none}
-.cover{min-height:calc(100vh - 90px);display:flex;flex-direction:column;justify-content:center;text-align:center}
+.cover{min-height:calc(100vh - 150px);display:flex;flex-direction:column;justify-content:center;text-align:center}
 .cover h2{font-size:1.8rem;margin:16px 0 4px}
-.lane{position:relative;height:140px;overflow:hidden;border-bottom:3px solid var(--bd);margin:28px -16px 28px}
+.lane{position:relative;height:140px;overflow:hidden;border-bottom:3px solid var(--bd);margin:14px -16px 18px}
 .st{position:absolute;bottom:0;left:-150px;display:flex;align-items:flex-end;animation:r1 4.5s linear infinite}
 .st svg{display:block;fill:var(--tx);animation:bob .22s ease-in-out infinite alternate}
 .st line,.st polyline{stroke:var(--tx);stroke-linecap:round}
@@ -68,6 +70,18 @@ label{font-size:1rem;font-weight:700;color:var(--tx);margin:14px 0 6px;border-le
 .mb.s{border:2px solid var(--ac);color:var(--tx);background:var(--card)}
 .mb.s svg{color:var(--ac)}
 .mb.mw{flex-direction:row;align-items:center;min-height:0;gap:14px}
+main>footer{font-weight:400;animation:fb 3.6s ease-in-out .5s forwards}
+@keyframes fb{0%,36%{font-weight:400;opacity:1}6%,18%,30%{opacity:.1}12%,24%{opacity:1}40%,100%{font-weight:700;opacity:1}}
+@media (prefers-reduced-motion:reduce){main>footer{animation:none;font-weight:700}}
+.alert{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;margin-bottom:12px;border:2px solid #e0a030;background:rgba(224,160,48,.14);border-radius:14px;font-weight:600}
+.alert button{flex:none;padding:8px 12px;border:0;border-radius:10px;background:var(--ac);color:var(--acx);font:inherit;font-weight:700;cursor:pointer}
+.congrats{margin-top:12px;padding:12px;border-radius:12px;background:var(--ac);color:var(--acx);text-align:center;font-weight:600}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:9;max-width:90%;padding:12px 18px;border-radius:14px;background:var(--ac);color:var(--acx);font-weight:700;text-align:center;box-shadow:0 6px 18px rgba(0,0,0,.3)}
+.pie{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:10px}
+.pl{flex:1;min-width:150px}.pl div{display:flex;align-items:center;gap:8px;padding:4px 0;font-size:.9rem}.pl i{width:12px;height:12px;border-radius:3px;flex:none}.pl span{flex:1;overflow-wrap:anywhere}.pl b{white-space:nowrap;font-weight:600}
+.swr{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
+.sw{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 4px;border:2px solid var(--bd);border-radius:12px;background:var(--bg);color:var(--tx);font:inherit;font-size:.8rem;cursor:pointer}
+.sw i{width:26px;height:26px;border-radius:50%}.sw.on{border-color:var(--ac);font-weight:700}
 </style>
 </head>
 <body class="cv">
@@ -76,7 +90,7 @@ label{font-size:1rem;font-weight:700;color:var(--tx);margin:14px 0 6px;border-le
 <button class="back noprint hide" id="back">← Menu principal</button>
 
 <section id="cover" class="cover">
-  <svg viewBox="0 0 120 120" style="width:140px;margin:0 auto" role="img" aria-label="Relógio girando">
+  <svg viewBox="0 0 120 120" style="width:116px;margin:0 auto" role="img" aria-label="Relógio girando">
     <circle cx="60" cy="60" r="54" fill="var(--card)" stroke="var(--ac)" stroke-width="7"/>
     <g id="tk" stroke="var(--tx)" stroke-width="3" stroke-linecap="round"></g>
     <line class="hh" x1="60" y1="60" x2="60" y2="34" stroke="var(--tx)" stroke-width="5" stroke-linecap="round"/>
@@ -90,6 +104,7 @@ label{font-size:1rem;font-weight:700;color:var(--tx);margin:14px 0 6px;border-le
 </section>
 
 <section id="menu" class="hide">
+  <div id="bkalert" class="alert hide"><span id="bkmsg"></span><button data-go="bk">Fazer backup</button></div>
   <div class="mgrid">
     <div class="mcol"><div class="gh">Registrar</div>
       <button class="mb p" data-go="home"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span class="mt">Registrar Atividade</span><span class="ms">Data, horas e companheiro</span></button>
@@ -101,6 +116,9 @@ label{font-size:1rem;font-weight:700;color:var(--tx);margin:14px 0 6px;border-le
     </div>
   </div>
   <button class="mb s mw" data-go="bk"><svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v3h16v-3"/></svg><span><span class="mt" style="display:block">Backup</span><span class="ms">Salvar e restaurar seus dados</span></span></button>
+  <div class="card" style="margin-top:14px"><strong>Cor do app</strong>
+    <div class="swr"><button class="sw" data-cor="padrao"><i style="background:#2f6f5e"></i>Padrão</button><button class="sw" data-cor="rosa"><i style="background:#b83b73"></i>Rosa</button><button class="sw" data-cor="azul"><i style="background:#2a5fa8"></i>Azul</button><button class="sw" data-cor="black"><i style="background:#111;border:1px solid #888"></i>Black</button></div>
+  </div>
 </section>
 
 <section id="bk" class="hide">
@@ -136,6 +154,7 @@ label{font-size:1rem;font-weight:700;color:var(--tx);margin:14px 0 6px;border-le
       <text id="gmx" x="180" y="122" text-anchor="middle" font-size="10" fill="var(--mut)"></text>
       <text id="gt" x="100" y="124" text-anchor="middle" font-size="14" font-weight="700" fill="var(--tx)">0%</text>
     </svg>
+    <div id="gcg" class="congrats hide">🎉 Parabéns! Você atingiu a meta. Continue assim!</div>
   </div>
 </section>
 
@@ -194,8 +213,11 @@ label{font-size:1rem;font-weight:700;color:var(--tx);margin:14px 0 6px;border-le
       <tfoot><tr><td class="noprint"></td><td colspan="3">Total do mês</td><td id="tt">0h 00min</td></tr></tfoot>
     </table></div>
   </div>
+  <div class="card"><strong>Horas por atividade</strong><div id="pa"></div></div>
+  <div class="card"><strong>Horas por companheiro</strong><div id="pc"></div></div>
 </section>
-<footer class="mut noprint" style="text-align:center;font-size:.8rem;margin:24px 0 8px">© 2026 ddsv-tech. Todos os direitos reservados.</footer>
+<div id="toast" class="toast hide"></div>
+<footer class="mut noprint" style="text-align:center;font-size:.8rem;margin:12px 0 4px">© 2026 ddsv-tech. Todos os direitos reservados.</footer>
 </main>
 <script>
 const $=id=>document.getElementById(id);
@@ -212,6 +234,34 @@ const $=id=>document.getElementById(id);
   $('lane').innerHTML=`<div class="st">${man}${woman}</div>`;
   $('enter').onclick=()=>{document.body.classList.remove('cv');show('menu')};
 })();
+let lastBk=null,cor='padrao';try{lastBk=localStorage.getItem('tempo-bk');cor=localStorage.getItem('tempo-cor')||'padrao'}catch(e){}
+const setBk=()=>{lastBk=today();try{localStorage.setItem('tempo-bk',lastBk)}catch(e){}};
+let tt_;const toast=t=>{const el=$('toast');el.textContent=t;el.classList.remove('hide');clearTimeout(tt_);tt_=setTimeout(()=>el.classList.add('hide'),4500)};
+const goalDone=()=>{const gm=(parseFloat(meta.h)||0)*60;if(gm<=0)return false;const t=today(),cy=yOf(t);return items.filter(i=>meta.p==='y'?yOf(i.date)===cy:i.date.slice(0,7)===t.slice(0,7)).reduce((s,i)=>s+i.min,0)>=gm};
+const PALS={rosa:{l:{'--bg':'#fbf3f6','--card':'#ffffff','--tx':'#2a1a22','--mut':'#7a6570','--ac':'#b83b73','--acx':'#ffffff','--bd':'#efd9e2'},d:{'--bg':'#1d1317','--card':'#2a1b22','--tx':'#f6eaf0','--mut':'#b39aa7','--ac':'#f08ab3','--acx':'#2b0f1c','--bd':'#43303a'}},
+azul:{l:{'--bg':'#f1f5fa','--card':'#ffffff','--tx':'#14202e','--mut':'#5f6f82','--ac':'#2a5fa8','--acx':'#ffffff','--bd':'#d9e2ee'},d:{'--bg':'#121821','--card':'#1b2430','--tx':'#e9f0f8','--mut':'#93a3b8','--ac':'#7fb0ee','--acx':'#0d1b2e','--bd':'#2d3a4b'}},
+black:{d:{'--bg':'#000000','--card':'#121212','--tx':'#f2f2f2','--mut':'#9a9a9a','--ac':'#e6e6e6','--acx':'#000000','--bd':'#2a2a2a'}}};
+function applyCor(){
+  const r=document.documentElement,mm=window.matchMedia?window.matchMedia('(prefers-color-scheme: dark)'):null,dt=r.getAttribute('data-theme');
+  const dark=dt==='dark'||(dt!=='light'&&!!(mm&&mm.matches));
+  ['--bg','--card','--tx','--mut','--ac','--acx','--bd'].forEach(k=>r.style.removeProperty(k));
+  const p=PALS[cor];if(p){Object.entries(cor==='black'||dark?p.d:p.l).forEach(([k,v])=>r.style.setProperty(k,v))}
+  r.style.colorScheme=cor==='black'?'dark':'';
+  document.querySelectorAll('.sw').forEach(b=>b.classList.toggle('on',b.dataset.cor===cor));
+}
+const PAL=['#2f8f7a','#e0a030','#4a7fd0','#d0587a','#8a65c8','#d97a3a','#5aa05a','#7b8794'];
+function pie(el,en){
+  const tot=en.reduce((s,e)=>s+e[1],0);
+  if(!tot){el.innerHTML='<div class="mut" style="margin-top:8px">Sem dados neste mês.</div>';return}
+  en.sort((a,b)=>b[1]-a[1]);
+  if(en.length>8)en=en.slice(0,7).concat([['Outros',en.slice(7).reduce((s,e)=>s+e[1],0)]]);
+  let a0=-Math.PI/2,sv='';
+  en.forEach((e,i)=>{const fr=e[1]/tot,a1=a0+fr*2*Math.PI;
+    if(en.length===1)sv+=`<circle cx="70" cy="70" r="64" fill="${PAL[0]}"/>`;
+    else{const x0=70+64*Math.cos(a0),y0=70+64*Math.sin(a0),x1=70+64*Math.cos(a1),y1=70+64*Math.sin(a1);sv+=`<path d="M70 70L${x0.toFixed(2)} ${y0.toFixed(2)}A64 64 0 ${fr>.5?1:0} 1 ${x1.toFixed(2)} ${y1.toFixed(2)}Z" fill="${PAL[i]}" stroke="var(--card)" stroke-width="2"/>`}
+    a0=a1});
+  el.innerHTML=`<div class="pie"><svg viewBox="0 0 140 140" width="140" height="140" role="img" aria-label="Gráfico de pizza">${sv}</svg><div class="pl">${en.map((e,i)=>`<div><i style="background:${PAL[i]}"></i><span>${esc(e[0])}</span><b>${fmt(e[1])} · ${Math.round(e[1]/tot*100)}%</b></div>`).join('')}</div></div>`;
+}
 const MES=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 const ORD=[9,10,11,12,1,2,3,4,5,6,7,8];
 let meta={h:'',p:'m'};try{meta=JSON.parse(localStorage.getItem('tempo-meta'))||meta}catch(e){}
@@ -245,10 +295,14 @@ function render(){
   const gm=(parseFloat(meta.h)||0)*60,cur=meta.p==='y'?yt0:mt;
   $('gh').value=meta.h;$('gp').value=meta.p;
   $('gr').textContent=gm<=0?'Defina uma meta em horas.':cur>=gm?`Meta atingida! 🎉 (${fmt(cur)} de ${fmt(gm)})`:`Faltam ${fmt(gm-cur)} (${fmt(cur)} de ${fmt(gm)})`;
+  $('gcg').classList.toggle('hide',!(gm>0&&cur>=gm));
   const pc=gm>0?Math.min(100,cur/gm*100):0;
   $('ga').setAttribute('stroke-dasharray',pc+' 100');$('ga').style.display=pc>0?'':'none';
   $('gn').setAttribute('transform','rotate('+(-90+pc*1.8)+' 100 100)');
   $('gt').textContent=Math.round(pc)+'%';$('gmx').textContent=gm>0?Math.round(gm/60)+'h':'';
+  const nb=items.length+studies.length;let am='';
+  if(nb){if(!lastBk)am='Você ainda não fez backup dos seus registros.';else{const dd=Math.floor((new Date(today())-new Date(lastBk))/864e5);if(dd>=30)am=`Faz ${dd} dias desde o seu último backup.`}}
+  $('bkmsg').textContent=am;$('bkalert').classList.toggle('hide',!am);
   const mset=new Set([...items.map(i=>i.date.slice(0,7)),...studies.map(x=>x.ym),today().slice(0,7)]);
   if(!mset.has(fm))fm=today().slice(0,7);
   $('fm').innerHTML=[...mset].sort().reverse().map(ym=>{const[y,m]=ym.split('-');return `<option value="${ym}"${ym===fm?' selected':''}>${MES[+m-1]} de ${y}</option>`}).join('');
@@ -269,6 +323,8 @@ function render(){
   $('sl').innerHTML=sl.map(x=>{const[y,m]=x.ym.split('-');return `<tr><td class="noprint act">${pendS===x.ym?`<button class="x" style="font-size:.9rem;font-weight:700" data-sok="${x.ym}">Excluir?</button><button class="x e" style="font-size:.9rem" data-sno="1">Não</button>`:`<button class="x e" data-sed="${x.ym}" aria-label="Editar">✎</button><button class="x" data-sid="${x.ym}" aria-label="Excluir">✕</button>`}</td><td>${MES[+m-1]} de ${y}</td><td>${x.n}</td></tr>`}).join('')||'<tr><td colspan="3" class="mut">Nada ainda.</td></tr>';
   // relatório filtrado
   const fl=sorted.filter(i=>i.date.slice(0,7)===fm);
+  const grp=k=>{const m=new Map();fl.forEach(i=>{const raw=(k==='a'?i.act:i.com)||'Sem companheiro',key=raw.toLowerCase(),o=m.get(key)||[raw,0];o[1]+=i.min;m.set(key,o)});return [...m.values()]};
+  pie($('pa'),grp('a'));pie($('pc'),grp('c'));
   $('tt').textContent=fmt(fl.reduce((s,i)=>s+i.min,0));
   $('rt').textContent='Relatório · '+MES[+fm.slice(5)-1]+' de '+fm.slice(0,4);
   $('tb').innerHTML=fl.map(i=>`<tr><td class="noprint act">${pend===i.id?`<button class="x" style="font-size:.9rem;font-weight:700" data-ok="${i.id}">Excluir?</button><button class="x e" style="font-size:.9rem" data-no="1">Não</button>`:`<button class="x e" data-ed="${i.id}" aria-label="Editar">✎</button><button class="x" data-id="${i.id}" aria-label="Excluir">✕</button>`}</td><td>${fd(i.date)}</td><td class="w">${esc(i.act)}</td><td class="w">${esc(i.com||'—')}</td><td>${fmt(i.min)}</td></tr>`).join('')||'<tr><td colspan="5" class="mut">Sem registros neste filtro.</td></tr>';
@@ -285,9 +341,10 @@ $('save').onclick=()=>{
   const h=parseInt($('h').value)||0,m=parseInt($('m').value)||0,act=$('a').value.trim(),d=$('d').value;
   const e=!d?'Informe a data.':(!editId&&d.slice(0,7)!==today().slice(0,7))?'A data deve ser do mês vigente.':!act?'Informe a atividade.':(h*60+m)<=0?'Informe horas e/ou minutos.':'';
   $('err').textContent=e;if(e)return;
-  const r={date:d,min:h*60+m,act,com:$('c').value.trim()};
+  const was=goalDone(),r={date:d,min:h*60+m,act,com:$('c').value.trim()};
   if(editId){items=items.map(i=>i.id===editId?{...i,...r}:i)}else{items.push({id:Date.now(),...r})}
   persist();resetForm();render();
+  if(!was&&goalDone())toast('🎉 Parabéns! Você atingiu a meta!');
 };
 $('cancel').onclick=resetForm;
 $('tb').onclick=e=>{
@@ -302,7 +359,7 @@ $('gh').onchange=saveMeta;$('gp').onchange=saveMeta;
 const bm=t=>$('bkm').textContent=t;
 $('bkg').onclick=async()=>{
   const txt=JSON.stringify({app:'registro-de-tempo',v:2,items,studies,meta},null,1);
-  $('bkt').value=txt;
+  $('bkt').value=txt;setBk();render();
   try{
     const u=URL.createObjectURL(new Blob([txt],{type:'application/json'}));
     const l=document.createElement('a');l.href=u;l.download='backup-tempo-'+today()+'.json';
@@ -342,6 +399,10 @@ $('sl').onclick=e=>{
   else if(d.sno){pendS=null;render()}
 };
 $('pdf').onclick=()=>window.print();
+document.querySelectorAll('.sw').forEach(b=>b.onclick=()=>{cor=b.dataset.cor;try{localStorage.setItem('tempo-cor',cor)}catch(e){}applyCor()});
+try{window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',applyCor)}catch(e){}
+try{if('serviceWorker' in navigator&&location.protocol.indexOf('http')===0)navigator.serviceWorker.register('sw.js')}catch(e){}
+applyCor();
 render();
 </script>
 </body>
