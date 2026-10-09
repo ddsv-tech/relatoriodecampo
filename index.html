@@ -40,24 +40,33 @@ body:not(.cv) #cover{display:none}
 .cover{min-height:calc(100vh - 150px);display:flex;flex-direction:column;justify-content:center;text-align:center}
 .cover h2{font-size:1.8rem;margin:16px 0 4px}
 .lane{position:relative;height:140px;overflow:hidden;border-bottom:3px solid var(--bd);margin:14px -16px 18px}
-.st{position:absolute;bottom:0;left:-150px;display:flex;align-items:flex-end;animation:r1 4.5s linear infinite}
+.st{position:absolute;bottom:0;left:-150px;display:flex;align-items:flex-end;animation:9s linear infinite}.s1{animation-name:r1}.s2{animation-name:r2}
+.rain{position:absolute;inset:0;opacity:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='30'%3E%3Cg stroke='%234a7fd0' stroke-width='1.6' stroke-linecap='round' opacity='.75'%3E%3Cline x1='6' y1='2' x2='3' y2='11'/%3E%3Cline x1='17' y1='16' x2='14' y2='25'/%3E%3C/g%3E%3C/svg%3E");animation:rn 9s linear infinite,rf .5s linear infinite}
+@keyframes rn{0%,46%{opacity:0}52%,88%{opacity:1}94%,100%{opacity:0}}
+@keyframes rf{to{background-position:-10px 30px}}
+#enter{animation:fin .5s ease 1s both}
+@keyframes fin{from{opacity:0;visibility:hidden}to{opacity:1;visibility:visible}}
+.cs{margin-top:4px}.cs .sw{padding:8px 4px}
 .st svg{display:block;fill:var(--tx);animation:bob .22s ease-in-out infinite alternate}
 .st line,.st polyline{stroke:var(--tx);stroke-linecap:round}
 .lg{animation:sw .4s ease-in-out infinite}
 .lg.b{animation-delay:-.2s}
-@keyframes r1{0%{left:-150px}75%,100%{left:100%}}
+@keyframes r1{0%{left:-150px}37.5%,100%{left:100%}}
+@keyframes r2{0%,50%{left:-150px}87.5%,100%{left:100%}}
 @keyframes bob{to{transform:translateY(-4px)}}
 @keyframes sw{0%,100%{transform:rotate(-34deg)}50%{transform:rotate(34deg)}}
 @keyframes sa{0%,100%{transform:rotate(-26deg)}50%{transform:rotate(26deg)}}
 @keyframes spin{to{transform:rotate(360deg)}}
 .hm,.hh{transform-origin:60px 60px;animation:spin 1.2s linear infinite}.hh{animation-duration:9s}
-@media (prefers-reduced-motion:reduce){.hm,.hh,.st,.st svg,.lg,.arm{animation:none}.st{left:30%}}
+@media (prefers-reduced-motion:reduce){.hm,.hh,.st,.st svg,.lg,.arm,.rain,#enter{animation:none}.st{left:30%}.rain,.s2{display:none}}
 @media print{.cover{display:none}}
 label{font-size:1rem;font-weight:700;color:var(--tx);margin:14px 0 6px;border-left:4px solid var(--ac);padding-left:8px}
 .card strong{font-size:1.1rem;color:var(--ac)}
 .cap{font-size:1.05rem;font-weight:700;color:var(--tx)}
 .total .cap{font-weight:700}
-.back{padding:10px 16px;border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:12px;font:inherit;font-weight:600;margin-bottom:14px;cursor:pointer}
+.back{display:inline-flex;align-items:center;gap:6px;padding:12px 22px 12px 14px;border:0;border-radius:14px;background:var(--ac);color:var(--acx);font:inherit;font-size:1.05rem;font-weight:700;margin-bottom:14px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+.back.hide{display:none}
+.back svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
 .mgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:8px 0 12px}
 .mcol{display:flex;flex-direction:column;gap:12px}
 .gh{font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
@@ -87,7 +96,7 @@ main>footer{font-weight:400;animation:fb 3.6s ease-in-out .5s forwards}
 <body class="cv">
 <main>
 <h1>⏱️ Relatório de Campo</h1>
-<button class="back noprint hide" id="back">← Menu principal</button>
+<button class="back noprint hide" id="back"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>Voltar</button>
 
 <section id="cover" class="cover">
   <svg viewBox="0 0 120 120" style="width:116px;margin:0 auto" role="img" aria-label="Relógio girando">
@@ -100,25 +109,23 @@ main>footer{font-weight:400;animation:fb 3.6s ease-in-out .5s forwards}
   <h2>Relatório de Campo</h2>
   <div class="mut">Suas horas e estudos, sempre em dia.</div>
   <div class="lane" id="lane"></div>
-  <button class="btn" id="enter" style="margin:0">Entrar</button>
+  <div class="cs"><div class="cap" style="margin-bottom:2px">Escolha a cor do app</div><div class="swr"><button class="sw" data-cor="padrao"><i style="background:#2f6f5e"></i>Padrão</button><button class="sw" data-cor="rosa"><i style="background:#b83b73"></i>Rosa</button><button class="sw" data-cor="azul"><i style="background:#2a5fa8"></i>Azul</button><button class="sw" data-cor="black"><i style="background:#111;border:1px solid #888"></i>Black</button></div></div>
+  <button class="btn" id="enter" style="margin:14px 0 0">Entrar</button>
 </section>
 
 <section id="menu" class="hide">
-  <div id="bkalert" class="alert hide"><span id="bkmsg"></span><button data-go="bk">Fazer backup</button></div>
   <div class="mgrid">
     <div class="mcol"><div class="gh">Registrar</div>
       <button class="mb p" data-go="home"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span class="mt">Registrar Atividade</span><span class="ms">Data, horas e companheiro</span></button>
       <button class="mb p" data-go="est"><svg viewBox="0 0 24 24"><path d="M4 19V5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM8 7h7"/></svg><span class="mt">Registrar Estudos do Mês</span><span class="ms">Estudos dirigidos no mês</span></button>
+      <button class="mb p" data-go="cr"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg><span class="mt">Registrar Crédito de Horas</span><span class="ms">Crédito, data e atividade</span></button>
     </div>
     <div class="mcol"><div class="gh">Consultar</div>
       <button class="mb s" data-go="dash"><svg viewBox="0 0 24 24"><path d="M5 20V11M12 20V4M19 20v-6M2 20h20"/></svg><span class="mt">Visão Geral</span><span class="ms">Mês, média e meta</span></button>
       <button class="mb s" data-go="rep"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h7"/></svg><span class="mt">Relatório de Atividades</span><span class="ms">Por mês, com PDF</span></button>
     </div>
   </div>
-  <button class="mb s mw" data-go="bk"><svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v3h16v-3"/></svg><span><span class="mt" style="display:block">Backup</span><span class="ms">Salvar e restaurar seus dados</span></span></button>
-  <div class="card" style="margin-top:14px"><strong>Cor do app</strong>
-    <div class="swr"><button class="sw" data-cor="padrao"><i style="background:#2f6f5e"></i>Padrão</button><button class="sw" data-cor="rosa"><i style="background:#b83b73"></i>Rosa</button><button class="sw" data-cor="azul"><i style="background:#2a5fa8"></i>Azul</button><button class="sw" data-cor="black"><i style="background:#111;border:1px solid #888"></i>Black</button></div>
-  </div>
+  <button class="mb s mw" data-go="bk"><svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v3h16v-3"/></svg><span><span class="mt" style="display:block">Backup</span><span class="ms" id="bks">Salvar e restaurar seus dados</span></span></button>
 </section>
 
 <section id="bk" class="hide">
@@ -147,6 +154,7 @@ main>footer{font-weight:400;animation:fb 3.6s ease-in-out .5s forwards}
     <div id="gr" style="margin-top:12px;font-weight:600"></div>
     <svg viewBox="0 0 200 128" style="width:100%;max-width:320px;display:block;margin:8px auto 0" role="img" aria-label="Velocímetro da meta">
       <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="var(--bd)" stroke-width="16" stroke-linecap="round"/>
+      <path id="gc" d="M 20 100 A 80 80 0 0 1 180 100" pathLength="100" fill="none" stroke="var(--ac)" stroke-opacity=".45" stroke-width="16" stroke-linecap="butt" stroke-dasharray="0 100"/>
       <path id="ga" d="M 20 100 A 80 80 0 0 1 180 100" pathLength="100" fill="none" stroke="var(--ac)" stroke-width="16" stroke-linecap="round" stroke-dasharray="0 100"/>
       <line id="gn" x1="100" y1="100" x2="100" y2="36" stroke="var(--tx)" stroke-width="3" stroke-linecap="round" transform="rotate(-90 100 100)"/>
       <circle cx="100" cy="100" r="7" fill="var(--tx)"/>
@@ -154,7 +162,8 @@ main>footer{font-weight:400;animation:fb 3.6s ease-in-out .5s forwards}
       <text id="gmx" x="180" y="122" text-anchor="middle" font-size="10" fill="var(--mut)"></text>
       <text id="gt" x="100" y="124" text-anchor="middle" font-size="14" font-weight="700" fill="var(--tx)">0%</text>
     </svg>
-    <div id="gcg" class="congrats hide">👏👏👏 Parabéns! Você atingiu a meta!</div>
+    <div class="mut" id="gl" style="text-align:center;margin-top:6px"></div>
+    <div id="gcg" class="congrats hide">👏👏👏 Parabéns! Você atingiu a meta. Continue assim!</div>
   </div>
 </section>
 
@@ -180,6 +189,24 @@ main>footer{font-weight:400;animation:fb 3.6s ease-in-out .5s forwards}
   <div class="card recent"><strong>Último registro</strong><div id="rec" class="mut">Nada ainda.</div></div>
 </section>
 
+<section id="cr" class="hide">
+  <div class="card">
+    <div class="cap" id="ctl">Crédito do mês</div>
+    <div class="total" id="ctot">0h</div>
+    <div class="mut" id="ccnt">0 registros no mês</div>
+  </div>
+  <div class="card">
+    <strong id="cft">Registrar Crédito de Horas</strong>
+    <label for="cd">Data</label><input type="date" id="cd">
+    <label for="ch">Crédito de horas</label><input type="number" id="ch" min="1" inputmode="numeric" placeholder="Ex.: 5">
+    <label for="ca">Atividade</label><input id="ca" placeholder="Ex.: campo, carrinho...">
+    <div class="mut" id="cerr" style="color:var(--dg);margin-top:8px"></div>
+    <button class="btn" id="csave">Adicionar</button>
+    <button class="btn hide" id="ccancel" style="background:var(--bd);color:var(--tx);margin-top:8px">Cancelar edição</button>
+  </div>
+  <div class="card recent"><strong>Último registro</strong><div id="crec" class="mut">Nada ainda.</div></div>
+</section>
+
 <section id="est" class="hide">
   <div class="card">
     <strong id="et">Registrar Estudos do Mês</strong>
@@ -197,24 +224,24 @@ main>footer{font-weight:400;animation:fb 3.6s ease-in-out .5s forwards}
 <section id="rep" class="hide">
   <div class="card noprint"><label for="fm" style="margin-top:0">Mês</label><select id="fm"></select></div>
   <div class="card">
-    <strong id="yt">Totais por mês</strong>
-    <div class="tw"><table><thead><tr><th>Mês</th><th>Horas</th><th>Estudos</th></tr></thead><tbody id="mt"></tbody>
-    <tfoot><tr><td id="ytl">Total do ano</td><td id="ytot">0h 00min</td><td id="yet">0</td></tr></tfoot></table></div>
-  </div>
-  <div class="card">
     <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
       <strong id="rt">Relatório de atividades</strong>
       <button class="noprint" id="pdf" style="padding:8px 12px;border-radius:10px;border:0;background:var(--ac);color:var(--acx);font:inherit;font-weight:600;cursor:pointer">Exportar PDF</button>
     </div>
     <div class="mut noprint" style="margin:6px 0">No diálogo de impressão, escolha “Salvar como PDF”.</div>
     <div class="tw"><table>
-      <thead><tr><th class="noprint"></th><th>Data</th><th>Atividade</th><th>Companheiro</th><th>Tempo</th></tr></thead>
+      <thead><tr><th class="noprint"></th><th>Data</th><th>Atividade</th><th>Companheiro</th><th>Tempo</th><th>Crédito</th></tr></thead>
       <tbody id="tb"></tbody>
-      <tfoot><tr><td class="noprint"></td><td colspan="3">Total do mês</td><td id="tt">0h 00min</td></tr></tfoot>
+      <tfoot><tr><td class="noprint"></td><td colspan="3">Total do mês</td><td id="tt">0h 00min</td><td id="ttc">0h</td></tr></tfoot>
     </table></div>
   </div>
-  <div class="card"><strong>Horas por atividade</strong><div id="pa"></div></div>
-  <div class="card"><strong>Horas por companheiro</strong><div id="pc"></div></div>
+  <div class="card"><strong>Horas por atividade</strong><div class="mut">Inclui o crédito de horas</div><div id="pa"></div></div>
+  <div class="card"><strong>Horas por companheiro</strong><div class="mut">Inclui o crédito de horas</div><div id="pc"></div></div>
+  <div class="card">
+    <strong id="yt">Totais por mês</strong>
+    <div class="tw"><table><thead><tr><th>Mês</th><th>Horas</th><th>Crédito</th><th>Estudos</th></tr></thead><tbody id="mt"></tbody>
+    <tfoot><tr><td id="ytl">Total do ano</td><td id="ytot">0h 00min</td><td id="yct">0h</td><td id="yet">0</td></tr></tfoot></table></div>
+  </div>
 </section>
 <div id="toast" class="toast hide"></div>
 <footer class="mut noprint" style="text-align:center;font-size:.8rem;margin:12px 0 4px">© 2026 ddsv-tech. Todos os direitos reservados.</footer>
@@ -228,16 +255,16 @@ const $=id=>document.getElementById(id);
   const umb=(x,t,b,w)=>`<line x1="${x}" y1="${t}" x2="${x}" y2="${b}" stroke-width="2"/><path d="M${x-w} ${t+8}Q${x} ${t-14} ${x+w} ${t+8}Q${x+w*.65} ${t+4} ${x+w*.33} ${t+8}Q${x} ${t+4} ${x-w*.33} ${t+8}Q${x-w*.65} ${t+4} ${x-w} ${t+8}Z" ${AC}/>`;
   const legs=(hy,w)=>{const l=`<line x1="20" y1="${hy}" x2="20" y2="62" stroke-width="${w}"/>`;return `<g class="lg" style="transform-origin:20px ${hy}px">${l}</g><g class="lg b" style="transform-origin:20px ${hy}px">${l}</g>`};
   const case_=`<rect x="11" y="36" width="19" height="11" rx="1.5" ${AC}/><path d="M16.5 36q4-6 8 0" fill="none" stroke="var(--ac)" stroke-width="2"/><rect x="18.5" y="38.5" width="4" height="2.5" rx=".6"/>`;
-  const man=`<svg viewBox="0 -34 90 104" width="110" height="127"><circle cx="20" cy="9" r="6"/><rect x="14" y="16" width="12" height="23" rx="5"/>${legs(38,5)}<g class="arm" style="transform-origin:20px 20px"><line x1="20" y1="20" x2="20" y2="36" stroke-width="4"/>${case_}</g><line x1="20" y1="20" x2="26" y2="34" stroke-width="4"/>${umb(26,-10,46,16)}</svg>`;
+  const man=u=>`<svg viewBox="0 -34 90 104" width="110" height="127"><circle cx="20" cy="9" r="6"/><rect x="14" y="16" width="12" height="23" rx="5"/>${legs(38,5)}<g class="arm" style="transform-origin:20px 20px"><line x1="20" y1="20" x2="20" y2="36" stroke-width="4"/>${case_}</g><line x1="20" y1="20" x2="26" y2="34" stroke-width="4"/>${u?umb(26,-10,46,16):''}</svg>`;
   const tote=`<rect x="14" y="30" width="7" height="10" rx=".8" transform="rotate(-10 17 40)" style="fill:var(--mut)"/><rect x="21" y="31" width="5" height="9" rx=".6" transform="rotate(10 23 40)"/><rect x="11" y="36" width="19" height="11" rx="1.5" ${AC}/><path d="M16.5 36q4-6 8 0" fill="none" stroke="var(--ac)" stroke-width="2"/>`;
-  const woman=`<svg viewBox="0 -22 50 92" width="61" height="112" style="margin-left:-68px"><path d="M15 6Q3 10 7 31Q13 23 16 15Z"/><circle cx="20" cy="8.5" r="6.6"/><path d="M16 17H24L23 27L32 46Q20 50 8 46L17 27Z"/>${legs(46,3.5)}<g class="arm" style="transform-origin:20px 20px"><line x1="20" y1="20" x2="20" y2="36" stroke-width="3.5"/>${tote}</g><line x1="20" y1="20" x2="26" y2="34" stroke-width="3.5"/>${umb(26,-10,46,16)}</svg>`;
-  $('lane').innerHTML=`<div class="st">${man}${woman}</div>`;
+  const woman=u=>`<svg viewBox="0 -22 50 92" width="61" height="112" style="margin-left:-68px"><path d="M15 6Q3 10 7 31Q13 23 16 15Z"/><circle cx="20" cy="8.5" r="6.6"/><path d="M16 17H24L23 27L32 46Q20 50 8 46L17 27Z"/>${legs(46,3.5)}<g class="arm" style="transform-origin:20px 20px"><line x1="20" y1="20" x2="20" y2="36" stroke-width="3.5"/>${tote}</g><line x1="20" y1="20" x2="26" y2="34" stroke-width="3.5"/>${u?umb(26,-10,46,16):''}</svg>`;
+  $('lane').innerHTML=`<div class="st s1">${man(0)}${woman(0)}</div><div class="st s2">${man(1)}${woman(1)}</div><div class="rain"></div>`;
   $('enter').onclick=()=>{document.body.classList.remove('cv');show('menu')};
 })();
 let lastBk=null,cor='padrao';try{lastBk=localStorage.getItem('tempo-bk');cor=localStorage.getItem('tempo-cor')||'padrao'}catch(e){}
 const setBk=()=>{lastBk=today();try{localStorage.setItem('tempo-bk',lastBk)}catch(e){}};
 let tt_;const toast=t=>{const el=$('toast');el.textContent=t;el.classList.remove('hide');clearTimeout(tt_);tt_=setTimeout(()=>el.classList.add('hide'),4500)};
-const goalDone=()=>{const gm=(parseFloat(meta.h)||0)*60;if(gm<=0)return false;const t=today(),cy=yOf(t);return items.filter(i=>meta.p==='y'?yOf(i.date)===cy:i.date.slice(0,7)===t.slice(0,7)).reduce((s,i)=>s+i.min,0)>=gm};
+const goalDone=()=>{const gm=(parseFloat(meta.h)||0)*60;if(gm<=0)return false;const t=today(),cy=yOf(t),f=d=>meta.p==='y'?yOf(d)===cy:d.slice(0,7)===t.slice(0,7);return items.filter(i=>f(i.date)).reduce((s,i)=>s+i.min,0)+credits.filter(c=>f(c.date)).reduce((s,c)=>s+c.h*60,0)>=gm};
 const PALS={rosa:{l:{'--bg':'#fbf3f6','--card':'#ffffff','--tx':'#2a1a22','--mut':'#7a6570','--ac':'#b83b73','--acx':'#ffffff','--bd':'#efd9e2'},d:{'--bg':'#1d1317','--card':'#2a1b22','--tx':'#f6eaf0','--mut':'#b39aa7','--ac':'#f08ab3','--acx':'#2b0f1c','--bd':'#43303a'}},
 azul:{l:{'--bg':'#f1f5fa','--card':'#ffffff','--tx':'#14202e','--mut':'#5f6f82','--ac':'#2a5fa8','--acx':'#ffffff','--bd':'#d9e2ee'},d:{'--bg':'#121821','--card':'#1b2430','--tx':'#e9f0f8','--mut':'#93a3b8','--ac':'#7fb0ee','--acx':'#0d1b2e','--bd':'#2d3a4b'}},
 black:{d:{'--bg':'#000000','--card':'#121212','--tx':'#f2f2f2','--mut':'#9a9a9a','--ac':'#e6e6e6','--acx':'#000000','--bd':'#2a2a2a'}}};
@@ -266,6 +293,9 @@ const MES=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto
 const ORD=[9,10,11,12,1,2,3,4,5,6,7,8];
 let meta={h:'',p:'m'};try{meta=JSON.parse(localStorage.getItem('tempo-meta'))||meta}catch(e){}
 let studies=[];try{studies=JSON.parse(localStorage.getItem('tempo-estudos')||'[]')}catch(e){}
+let credits=[];try{credits=JSON.parse(localStorage.getItem('tempo-creditos')||'[]')}catch(e){}
+const persistC=()=>{try{localStorage.setItem('tempo-creditos',JSON.stringify(credits))}catch(e){}};
+let editCid=null;
 const persistS=()=>{try{localStorage.setItem('tempo-estudos',JSON.stringify(studies))}catch(e){}};
 let items=[],pend=null,pendS=null,editId=null,fy=null,fm='all';
 try{items=JSON.parse(localStorage.getItem('tempo-registros')||'[]')}catch(e){}
@@ -283,6 +313,10 @@ function render(){
   $('tot').textContent=fmt(mi.reduce((s,i)=>s+i.min,0));
   $('cnt').textContent=mi.length+(mi.length===1?' registro':' registros')+' no mês';
   $('rec').innerHTML=mi.length?`<div><span>${fd(mi[0].date)} · ${esc(mi[0].act)}</span><span>${fmt(mi[0].min)}</span></div>`:'Nenhum registro neste mês.';
+  const mc=credits.filter(c=>c.date.slice(0,7)===cm).sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);
+  $('ctl').textContent='Crédito de '+MES[+cm.slice(5)-1]+' de '+cm.slice(0,4);
+  $('ctot').textContent=mc.reduce((s,c)=>s+c.h,0)+'h';$('ccnt').textContent=mc.length+(mc.length===1?' registro':' registros')+' no mês';
+  $('crec').innerHTML=mc.length?`<div><span>${fd(mc[0].date)} · ${esc(mc[0].act)}</span><span>${mc[0].h}h</span></div>`:'Nenhum registro neste mês.';
   // painel
   const t0=today(),cy=yOf(t0),idx=ORD.indexOf(mOf(t0))+1;
   const mt=items.filter(i=>i.date.slice(0,7)===t0.slice(0,7)).reduce((s,i)=>s+i.min,0);
@@ -292,18 +326,20 @@ function render(){
   $('da').textContent=nc>0?Math.round(closed/nc/60)+'h':'—';
   $('dal').textContent=nc>0?`Set/${cy} – Ago/${cy+1} · ${nc} ${nc>1?'meses fechados':'mês fechado'}`:'Ainda não há meses fechados neste ano.';
   const se=studies.find(x=>x.ym===t0.slice(0,7));$('dme').textContent=se?`Estudos dirigidos no mês: ${se.n}`:'';
-  const gm=(parseFloat(meta.h)||0)*60,cur=meta.p==='y'?yt0:mt;
+  const gm=(parseFloat(meta.h)||0)*60,hm=meta.p==='y'?yt0:mt,cc=credits.filter(c=>meta.p==='y'?yOf(c.date)===cy:c.date.slice(0,7)===t0.slice(0,7)).reduce((s,c)=>s+c.h,0)*60,cur=hm+cc;
   $('gh').value=meta.h;$('gp').value=meta.p;
-  $('gr').textContent=gm<=0?'Defina uma meta em horas.':cur>=gm?`Meta atingida! 🎉 (${fmt(cur)} de ${fmt(gm)})`:`Faltam ${fmt(gm-cur)} (${fmt(cur)} de ${fmt(gm)})`;
+  $('gr').textContent=gm<=0?'Defina uma meta em horas.':cur>=gm?`Meta atingida! 👏👏👏 (${fmt(cur)} de ${fmt(gm)})`:`Faltam ${fmt(gm-cur)} (${fmt(cur)} de ${fmt(gm)})`;
   $('gcg').classList.toggle('hide',!(gm>0&&cur>=gm));
-  const pc=gm>0?Math.min(100,cur/gm*100):0;
-  $('ga').setAttribute('stroke-dasharray',pc+' 100');$('ga').style.display=pc>0?'':'none';
+  const ph=gm>0?Math.min(100,hm/gm*100):0,pcr=gm>0?Math.min(100-ph,cc/gm*100):0,pc=ph+pcr;
+  $('ga').setAttribute('stroke-dasharray',ph+' 100');$('ga').style.display=ph>0?'':'none';
+  $('gc').setAttribute('stroke-dasharray',pcr+' 100');$('gc').setAttribute('stroke-dashoffset',-ph);$('gc').style.display=pcr>0?'':'none';
   $('gn').setAttribute('transform','rotate('+(-90+pc*1.8)+' 100 100)');
-  $('gt').textContent=Math.round(pc)+'%';$('gmx').textContent=gm>0?Math.round(gm/60)+'h':'';
-  const nb=items.length+studies.length;let am='';
-  if(nb){if(!lastBk)am='Você ainda não fez backup dos seus registros.';else{const dd=Math.floor((new Date(today())-new Date(lastBk))/864e5);if(dd>=30)am=`Faz ${dd} dias desde o seu último backup.`}}
-  $('bkmsg').textContent=am;$('bkalert').classList.toggle('hide',!am);
-  const mset=new Set([...items.map(i=>i.date.slice(0,7)),...studies.map(x=>x.ym),today().slice(0,7)]);
+  $('gt').textContent=(gm>0?Math.round(cur/gm*100):0)+'%';$('gmx').textContent=gm>0?Math.round(gm/60)+'h':'';
+  $('gl').textContent=cc>0?`Horas ${fmt(hm)} + crédito ${cc/60}h`:'';
+  let bt='Backup ainda não feito',warn=true;
+  if(lastBk){const dd=Math.floor((new Date(today())-new Date(lastBk))/864e5);bt='Último backup: '+fd(lastBk)+(dd>=30?` (faz ${dd} dias)`:'');warn=dd>=30}
+  $('bks').textContent=bt;$('bks').style.color=warn?'#c27c0e':'';$('bks').style.fontWeight=warn?'700':'';$('bks').style.opacity=warn?'1':'';
+  const mset=new Set([...items.map(i=>i.date.slice(0,7)),...studies.map(x=>x.ym),...credits.map(c=>c.date.slice(0,7)),today().slice(0,7)]);
   if(!mset.has(fm))fm=today().slice(0,7);
   $('fm').innerHTML=[...mset].sort().reverse().map(ym=>{const[y,m]=ym.split('-');return `<option value="${ym}"${ym===fm?' selected':''}>${MES[+m-1]} de ${y}</option>`}).join('');
   fy=yOf(fm+'-01');
@@ -316,27 +352,30 @@ function render(){
   if(rng){const all=[...items.map(i=>i.date.slice(0,7)),...studies.map(x=>x.ym),today().slice(0,7)].sort();let a=rf?rf.slice(0,7):all[0];const z=rto?rto.slice(0,7):all[all.length-1];
     for(let q=0;q<72&&a<=z;q++){rows.push(a);let[y,m]=a.split('-').map(Number);m++;if(m>12){m=1;y++}a=y+'-'+String(m).padStart(2,'0')}}
   else rows=ORD.map(m=>(m>=9?fy:fy+1)+'-'+String(m).padStart(2,'0'));
-  const src=rng?items.filter(i=>inR(i.date)):yi;let th=0,te=0;
-  $('mt').innerHTML=rows.map(ym=>{const t=src.filter(i=>i.date.slice(0,7)===ym).reduce((s,i)=>s+i.min,0),sx=studies.find(x=>x.ym===ym),[y,m]=ym.split('-');th+=t;te+=sx?sx.n:0;return `<tr><td>${MES[+m-1]} ${y}</td><td>${fmt(t)}</td><td>${sx?sx.n:'—'}</td></tr>`}).join('');
-  $('ytot').textContent=fmt(th);$('yet').textContent=te;$('yt').textContent='Totais por mês · '+pl;$('ytl').textContent=rng?'Total do período':'Total do ano';
+  const src=rng?items.filter(i=>inR(i.date)):yi;let th=0,te=0,tc=0;const cyi=credits.filter(c=>yOf(c.date)===fy);
+  $('mt').innerHTML=rows.map(ym=>{const t=src.filter(i=>i.date.slice(0,7)===ym).reduce((s,i)=>s+i.min,0),sx=studies.find(x=>x.ym===ym),[y,m]=ym.split('-');const ch=cyi.filter(c=>c.date.slice(0,7)===ym).reduce((s,c)=>s+c.h,0);th+=t;tc+=ch;te+=sx?sx.n:0;return `<tr><td>${MES[+m-1]} ${y}</td><td>${fmt(t)}</td><td>${ch?ch+'h':'—'}</td><td>${sx?sx.n:'—'}</td></tr>`}).join('');
+  $('ytot').textContent=fmt(th);$('yet').textContent=te;$('yct').textContent=tc+'h';$('yt').textContent='Totais por mês · '+pl;$('ytl').textContent=rng?'Total do período':'Total do ano';
   const sl=[...studies].sort((a,b)=>b.ym.localeCompare(a.ym));
   $('sl').innerHTML=sl.map(x=>{const[y,m]=x.ym.split('-');return `<tr><td class="noprint act">${pendS===x.ym?`<button class="x" style="font-size:.9rem;font-weight:700" data-sok="${x.ym}">Excluir?</button><button class="x e" style="font-size:.9rem" data-sno="1">Não</button>`:`<button class="x e" data-sed="${x.ym}" aria-label="Editar">✎</button><button class="x" data-sid="${x.ym}" aria-label="Excluir">✕</button>`}</td><td>${MES[+m-1]} de ${y}</td><td>${x.n}</td></tr>`}).join('')||'<tr><td colspan="3" class="mut">Nada ainda.</td></tr>';
   // relatório filtrado
   const fl=sorted.filter(i=>i.date.slice(0,7)===fm);
-  const grp=k=>{const m=new Map();fl.forEach(i=>{const raw=(k==='a'?i.act:i.com)||'Sem companheiro',key=raw.toLowerCase(),o=m.get(key)||[raw,0];o[1]+=i.min;m.set(key,o)});return [...m.values()]};
+  const grp=k=>{const m=new Map();[...fl,...credits.filter(c=>c.date.slice(0,7)===fm).map(c=>({act:c.act,com:'',min:c.h*60}))].forEach(i=>{const raw=(k==='a'?i.act:i.com)||'Sem companheiro',key=raw.toLowerCase(),o=m.get(key)||[raw,0];o[1]+=i.min;m.set(key,o)});return [...m.values()]};
   pie($('pa'),grp('a'));pie($('pc'),grp('c'));
   $('tt').textContent=fmt(fl.reduce((s,i)=>s+i.min,0));
+  const fc=credits.filter(c=>c.date.slice(0,7)===fm);$('ttc').textContent=fc.reduce((s,c)=>s+c.h,0)+'h';
   $('rt').textContent='Relatório · '+MES[+fm.slice(5)-1]+' de '+fm.slice(0,4);
-  $('tb').innerHTML=fl.map(i=>`<tr><td class="noprint act">${pend===i.id?`<button class="x" style="font-size:.9rem;font-weight:700" data-ok="${i.id}">Excluir?</button><button class="x e" style="font-size:.9rem" data-no="1">Não</button>`:`<button class="x e" data-ed="${i.id}" aria-label="Editar">✎</button><button class="x" data-id="${i.id}" aria-label="Excluir">✕</button>`}</td><td>${fd(i.date)}</td><td class="w">${esc(i.act)}</td><td class="w">${esc(i.com||'—')}</td><td>${fmt(i.min)}</td></tr>`).join('')||'<tr><td colspan="5" class="mut">Sem registros neste filtro.</td></tr>';
+  const btn=(pd,ed,del,okk)=>pd?`<button class="x" style="font-size:.9rem;font-weight:700" data-${okk}>Excluir?</button><button class="x e" style="font-size:.9rem" data-no="1">Não</button>`:`<button class="x e" data-${ed} aria-label="Editar">✎</button><button class="x" data-${del} aria-label="Excluir">✕</button>`;
+  const all=[...fl.map(o=>({k:'i',o})),...fc.map(o=>({k:'c',o}))].sort((a,b)=>b.o.date.localeCompare(a.o.date)||b.o.id-a.o.id);
+  $('tb').innerHTML=all.map(({k,o})=>k==='i'?`<tr><td class="noprint act">${btn(pend===o.id,`ed="${o.id}"`,`id="${o.id}"`,`ok="${o.id}"`)}</td><td>${fd(o.date)}</td><td class="w">${esc(o.act)}</td><td class="w">${esc(o.com||'—')}</td><td>${fmt(o.min)}</td><td>—</td></tr>`:`<tr><td class="noprint act">${btn(pend==='c'+o.id,`ced="${o.id}"`,`cid="${o.id}"`,`cok="${o.id}"`)}</td><td>${fd(o.date)}</td><td class="w">${esc(o.act)}</td><td>—</td><td>—</td><td>${o.h}h</td></tr>`).join('')||'<tr><td colspan="6" class="mut">Sem registros neste filtro.</td></tr>';
 }
-function show(v){['menu','dash','home','est','rep','bk'].forEach(a=>$(a).classList.toggle('hide',v!==a));$('back').classList.toggle('hide',v==='menu');scrollTo(0,0)}
+function show(v){['menu','dash','home','cr','est','rep','bk'].forEach(a=>$(a).classList.toggle('hide',v!==a));$('back').classList.toggle('hide',v==='menu');scrollTo(0,0)}
 document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>show(b.dataset.go));
 $('back').onclick=()=>show('menu');
 $('fm').onchange=e=>{fm=e.target.value;render()};
 function resetForm(){editId=null;['h','m','a','c'].forEach(k=>$(k).value='');$('d').value=today();lockDate(true);$('ft').textContent='Registrar Atividade';$('save').textContent='Adicionar';$('cancel').classList.add('hide');$('err').textContent=''}
 $('d').value=today();
-const lockDate=on=>{const t=today(),n=new Date(+t.slice(0,4),+t.slice(5,7),0).getDate();$('d').min=on?t.slice(0,7)+'-01':'';$('d').max=on?t.slice(0,7)+'-'+String(n).padStart(2,'0'):''};
-lockDate(true);
+const lockDate=(on,el=$('d'))=>{const t=today(),n=new Date(+t.slice(0,4),+t.slice(5,7),0).getDate();el.min=on?t.slice(0,7)+'-01':'';el.max=on?t.slice(0,7)+'-'+String(n).padStart(2,'0'):''};
+lockDate(true);$('cd').value=today();lockDate(true,$('cd'));
 $('save').onclick=()=>{
   const h=parseInt($('h').value)||0,m=parseInt($('m').value)||0,act=$('a').value.trim(),d=$('d').value;
   const e=!d?'Informe a data.':(!editId&&d.slice(0,7)!==today().slice(0,7))?'A data deve ser do mês vigente.':!act?'Informe a atividade.':(h*60+m)<=0?'Informe horas e/ou minutos.':'';
@@ -344,21 +383,35 @@ $('save').onclick=()=>{
   const was=goalDone(),r={date:d,min:h*60+m,act,com:$('c').value.trim()};
   if(editId){items=items.map(i=>i.id===editId?{...i,...r}:i)}else{items.push({id:Date.now(),...r})}
   persist();resetForm();render();
-  if(!was&&goalDone())toast('🎉 Parabéns! Você atingiu a meta!');
+  if(!was&&goalDone())toast('👏👏👏 Parabéns! Você atingiu a meta!');
 };
 $('cancel').onclick=resetForm;
 $('tb').onclick=e=>{
-  const ed=e.target.dataset.ed,id=e.target.dataset.id;
-  if(ed){const i=items.find(x=>x.id==ed);editId=i.id;$('d').value=i.date;$('h').value=Math.floor(i.min/60);$('m').value=i.min%60;$('a').value=i.act;$('c').value=i.com||'';lockDate(false);$('ft').textContent='Editar Atividade';$('save').textContent='Salvar alterações';$('cancel').classList.remove('hide');show('home');scrollTo(0,0)}
-  else if(id){pend=+id;render()}
-  else if(e.target.dataset.ok){const k=+e.target.dataset.ok;items=items.filter(i=>i.id!==k);if(editId===k)resetForm();pend=null;persist();render()}
-  else if(e.target.dataset.no){pend=null;render()}
+  const d=e.target.dataset;
+  if(d.ed){const i=items.find(x=>x.id==d.ed);editId=i.id;$('d').value=i.date;$('h').value=Math.floor(i.min/60);$('m').value=i.min%60;$('a').value=i.act;$('c').value=i.com||'';lockDate(false);$('ft').textContent='Editar Atividade';$('save').textContent='Salvar alterações';$('cancel').classList.remove('hide');show('home');scrollTo(0,0)}
+  else if(d.ced){const c=credits.find(x=>x.id==d.ced);editCid=c.id;$('cd').value=c.date;$('ch').value=c.h;$('ca').value=c.act;lockDate(false,$('cd'));$('cft').textContent='Editar Crédito de Horas';$('csave').textContent='Salvar alterações';$('ccancel').classList.remove('hide');show('cr')}
+  else if(d.id){pend=+d.id;render()}
+  else if(d.cid){pend='c'+d.cid;render()}
+  else if(d.ok){const k=+d.ok;items=items.filter(i=>i.id!==k);if(editId===k)resetForm();pend=null;persist();render()}
+  else if(d.cok){const k=+d.cok;credits=credits.filter(c=>c.id!==k);if(editCid===k)resetC();pend=null;persistC();render()}
+  else if(d.no){pend=null;render()}
+};
+function resetC(){editCid=null;$('ch').value='';$('ca').value='';$('cd').value=today();lockDate(true,$('cd'));$('cft').textContent='Registrar Crédito de Horas';$('csave').textContent='Adicionar';$('ccancel').classList.add('hide');$('cerr').textContent=''}
+$('ccancel').onclick=resetC;
+$('csave').onclick=()=>{
+  const h=parseInt($('ch').value)||0,act=$('ca').value.trim(),d=$('cd').value;
+  const e=!d?'Informe a data.':(!editCid&&d.slice(0,7)!==today().slice(0,7))?'A data deve ser do mês vigente.':h<=0?'Informe o crédito de horas.':!act?'Informe a atividade.':'';
+  $('cerr').textContent=e;if(e)return;
+  const was=goalDone(),r={date:d,h,act};
+  if(editCid)credits=credits.map(c=>c.id===editCid?{...c,...r}:c);else credits.push({id:Date.now(),...r});
+  persistC();resetC();render();
+  if(!was&&goalDone())toast('👏👏👏 Parabéns! Você atingiu a meta!');
 };
 const saveMeta=()=>{meta={h:$('gh').value,p:$('gp').value};try{localStorage.setItem('tempo-meta',JSON.stringify(meta))}catch(e){}render()};
 $('gh').onchange=saveMeta;$('gp').onchange=saveMeta;
 const bm=t=>$('bkm').textContent=t;
 $('bkg').onclick=async()=>{
-  const txt=JSON.stringify({app:'registro-de-tempo',v:2,items,studies,meta},null,1);
+  const txt=JSON.stringify({app:'registro-de-tempo',v:3,items,studies,credits,meta},null,1);
   $('bkt').value=txt;setBk();render();
   try{
     const u=URL.createObjectURL(new Blob([txt],{type:'application/json'}));
@@ -374,6 +427,8 @@ function restore(txt){
     const ids=new Set(items.map(i=>i.id));let n=0;
     d.items.forEach(i=>{if(i&&i.date&&i.act&&i.min>0&&!ids.has(i.id)){items.push({id:i.id||Date.now()+n,date:i.date,min:+i.min,act:String(i.act),com:String(i.com||'')});n++}});
     if(Array.isArray(d.studies))d.studies.forEach(x=>{if(x&&/^\d{4}-\d{2}$/.test(x.ym)&&x.n>=0&&!studies.find(z=>z.ym===x.ym)){studies.push({ym:x.ym,n:+x.n});n++}});
+    if(Array.isArray(d.credits))d.credits.forEach(x=>{if(x&&x.date&&x.act&&x.h>0&&!credits.find(z=>z.id===x.id)){credits.push({id:x.id||Date.now()+n,date:x.date,h:+x.h,act:String(x.act)});n++}});
+    persistC();
     persistS();
     if(d.meta&&!meta.h){meta=d.meta}
     try{localStorage.setItem('tempo-meta',JSON.stringify(meta))}catch(e){}
