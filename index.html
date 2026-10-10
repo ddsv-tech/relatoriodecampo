@@ -155,7 +155,7 @@ main>footer{font-weight:400;animation:fb 3.6s ease-in-out .5s forwards}
   <details><summary>Seus dados e privacidade</summary><p>Seus registros ficam só no seu aparelho, e ninguém os vê. O app só conta quantos aparelhos já o usaram, sem coletar nome, localização ou qualquer dado pessoal.</p><p><b>Atenção:</b> se você limpar o navegador ou trocar de celular, os dados se perdem. Faça backup com frequência.</p></details>
   <details><summary>Instalar no celular</summary><p><b>Android (Chrome):</b> toque em ⋮ e em <i>Instalar app</i>.</p><p><b>iPhone (Safari):</b> toque em Compartilhar e em <i>Adicionar à Tela de Início</i>.</p></details>
   <div id="cnw" class="hide"><div class="card" style="display:flex;align-items:center;justify-content:space-between;border:2px solid var(--ac);margin:10px 0 0"><span>Usuários do app</span><b id="cn" style="font-size:1.4rem;color:var(--ac)">—</b></div></div>
-  <div id="ver" class="mut" style="text-align:center;font-size:.8rem;margin-top:14px;padding:8px 0;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:manipulation">Versão 1.1 · atualizado em outubro de 2026</div>
+  <div class="mut" style="text-align:center;font-size:.8rem;margin-top:14px">Versão 1.1 · atualizado em outubro de 2026</div>
 </section>
 
 <section id="bk" class="hide">
@@ -499,16 +499,11 @@ render();
     else paint();
   }catch(e){}
   document.querySelectorAll('[data-go="sb"]').forEach(b=>b.addEventListener('click',paint));
-  let armed=0,taps=0,last=0,tm=null;
-  const ver=$('ver'),ft=$('ft'),stop=()=>{clearTimeout(tm);tm=null};
-  ver.addEventListener('pointerdown',()=>{stop();tm=setTimeout(()=>{tm=null;armed=Date.now();taps=0},3000)});
-  ['pointerup','pointerleave','pointercancel'].forEach(e=>ver.addEventListener(e,stop));
-  ver.addEventListener('contextmenu',e=>e.preventDefault());
-  ft.addEventListener('click',()=>{
+  let taps=0,last=0;
+  $('ft').addEventListener('click',()=>{
     const n=Date.now();
-    if(!armed||n-armed>15000){armed=0;taps=0;return}
     taps=(n-last>2000)?1:taps+1;last=n;
-    if(taps>=7){armed=0;taps=0;ls('tempo-admin',ls('tempo-admin')==='1'?null:'1');paint()}
+    if(taps>=3){taps=0;const on=ls('tempo-admin')==='1';ls('tempo-admin',on?null:'1');paint();toast(on?'Contador escondido':'Contador liberado em Sobre')}
   });
 })();
 /*/CN*/
