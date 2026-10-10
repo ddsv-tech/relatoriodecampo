@@ -508,7 +508,7 @@ render();
     const n=Date.now();
     if(!armed||n-armed>15000){armed=0;taps=0;return}
     taps=(n-last>2000)?1:taps+1;last=n;
-    if(taps>=5){armed=0;taps=0;ls('tempo-admin',ls('tempo-admin')==='1'?null:'1');paint()}
+    if(taps>=7){armed=0;taps=0;ls('tempo-admin',ls('tempo-admin')==='1'?null:'1');paint()}
   });
 })();
 /*/CN*/
