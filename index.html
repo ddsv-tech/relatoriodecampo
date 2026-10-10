@@ -152,9 +152,10 @@ main>footer{font-weight:400;animation:fb 3.6s ease-in-out .5s forwards}
   <h2 style="font-size:1.3rem;color:var(--ac);margin:0 0 12px">Sobre</h2>
   <details open><summary>O que é o app</summary><p>O Relatório de Campo ajuda você a registrar horas, créditos de horas e estudos dirigidos, acompanhar sua meta e consultar o relatório do mês com gráficos e tabela.</p></details>
   <details><summary>Como usar</summary><ul><li><b>Registrar Atividade:</b> data, horas, atividade e companheiro.</li><li><b>Registrar Estudos do Mês:</b> total de estudos dirigidos no mês.</li><li><b>Registrar Crédito de Horas:</b> soma na meta, mas não nas horas.</li><li><b>Visão Geral:</b> mês atual, média e velocímetro da meta.</li><li><b>Relatório de Atividades:</b> filtre o mês e veja os gráficos e a tabela.</li><li><b>Backup:</b> salve seus dados e restaure em outro aparelho.</li></ul></details>
-  <details><summary>Seus dados e privacidade</summary><p>Tudo fica só no seu aparelho. Nada é enviado a servidores, e ninguém vê seus registros.</p><p><b>Atenção:</b> se você limpar o navegador ou trocar de celular, os dados se perdem. Faça backup com frequência.</p></details>
+  <details><summary>Seus dados e privacidade</summary><p>Seus registros ficam só no seu aparelho, e ninguém os vê. O app só conta quantos aparelhos já o usaram, sem coletar nome, localização ou qualquer dado pessoal.</p><p><b>Atenção:</b> se você limpar o navegador ou trocar de celular, os dados se perdem. Faça backup com frequência.</p></details>
   <details><summary>Instalar no celular</summary><p><b>Android (Chrome):</b> toque em ⋮ e em <i>Instalar app</i>.</p><p><b>iPhone (Safari):</b> toque em Compartilhar e em <i>Adicionar à Tela de Início</i>.</p></details>
-  <div class="mut" style="text-align:center;font-size:.8rem;margin-top:14px">Versão 1.0 · atualizado em outubro de 2026</div>
+  <div id="cnw" class="hide"><div class="card" style="display:flex;align-items:center;justify-content:space-between;border:2px solid var(--ac);margin:10px 0 0"><span>Usuários do app</span><b id="cn" style="font-size:1.4rem;color:var(--ac)">—</b></div></div>
+  <div id="ver" class="mut" style="text-align:center;font-size:.8rem;margin-top:14px;padding:8px 0;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:manipulation">Versão 1.1 · atualizado em outubro de 2026</div>
 </section>
 
 <section id="bk" class="hide">
@@ -268,7 +269,7 @@ main>footer{font-weight:400;animation:fb 3.6s ease-in-out .5s forwards}
   </div>
 </section>
 <div id="toast" class="toast hide"></div>
-<footer class="mut noprint" style="text-align:center;font-size:.8rem;margin:12px 0 4px">© 2026 ddsv-tech. Todos os direitos reservados.</footer>
+<footer id="ft" class="mut noprint" style="text-align:center;font-size:.8rem;margin:4px 0 0;padding:8px 0;user-select:none;-webkit-user-select:none;touch-action:manipulation">© 2026 ddsv-tech. Todos os direitos reservados.</footer>
 </main>
 <script>
 const $=id=>document.getElementById(id);
@@ -483,6 +484,34 @@ try{window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',
 try{if('serviceWorker' in navigator&&location.protocol.indexOf('http')===0)navigator.serviceWorker.register('sw.js')}catch(e){}
 applyCor();
 render();
+/*CN*/
+(function(){
+  const API='https://api.counterapi.dev/v1/ddsv-tech-relatorio-de-campo/usuarios';
+  const ls=(k,v)=>{try{if(v===undefined)return localStorage.getItem(k);if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){}return null};
+  const call=p=>fetch(API+p,{cache:'no-store'}).then(r=>{if(!r.ok)throw 0;return r.json()}).then(d=>{const n=Number(d&&d.count);if(!isFinite(n))throw 0;return n});
+  const paint=()=>{
+    const on=ls('tempo-admin')==='1';
+    $('cnw').classList.toggle('hide',!on);
+    if(on)call('').then(n=>{$('cn').textContent=n.toLocaleString('pt-BR')}).catch(()=>{$('cn').textContent='—'});
+  };
+  try{
+    if(ls('tempo-contou')!=='1')call('/up').then(()=>{ls('tempo-contou','1');paint()}).catch(paint);
+    else paint();
+  }catch(e){}
+  document.querySelectorAll('[data-go="sb"]').forEach(b=>b.addEventListener('click',paint));
+  let armed=0,taps=0,last=0,tm=null;
+  const ver=$('ver'),ft=$('ft'),stop=()=>{clearTimeout(tm);tm=null};
+  ver.addEventListener('pointerdown',()=>{stop();tm=setTimeout(()=>{tm=null;armed=Date.now();taps=0},3000)});
+  ['pointerup','pointerleave','pointercancel'].forEach(e=>ver.addEventListener(e,stop));
+  ver.addEventListener('contextmenu',e=>e.preventDefault());
+  ft.addEventListener('click',()=>{
+    const n=Date.now();
+    if(!armed||n-armed>15000){armed=0;taps=0;return}
+    taps=(n-last>2000)?1:taps+1;last=n;
+    if(taps>=5){armed=0;taps=0;ls('tempo-admin',ls('tempo-admin')==='1'?null:'1');paint()}
+  });
+})();
+/*/CN*/
 </script>
 </body>
 </html>
