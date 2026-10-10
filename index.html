@@ -269,7 +269,7 @@ main>footer{font-weight:400;animation:fb 3.6s ease-in-out .5s forwards}
   </div>
 </section>
 <div id="toast" class="toast hide"></div>
-<footer id="ft" class="mut noprint" style="text-align:center;font-size:.8rem;margin:4px 0 0;padding:8px 0;user-select:none;-webkit-user-select:none;touch-action:manipulation">© 2026 ddsv-tech. Todos os direitos reservados.</footer>
+<footer id="rdp" class="mut noprint" style="text-align:center;font-size:.8rem;margin:4px 0 0;padding:8px 0;user-select:none;-webkit-user-select:none;touch-action:manipulation">© 2026 ddsv-tech. Todos os direitos reservados.</footer>
 </main>
 <script>
 const $=id=>document.getElementById(id);
@@ -500,7 +500,7 @@ render();
   }catch(e){}
   document.querySelectorAll('[data-go="sb"]').forEach(b=>b.addEventListener('click',paint));
   let taps=0,last=0;
-  $('ft').addEventListener('click',()=>{
+  $("rdp").addEventListener('click',()=>{
     const n=Date.now();
     taps=(n-last>2000)?1:taps+1;last=n;
     if(taps>=3){taps=0;const on=ls('tempo-admin')==='1';ls('tempo-admin',on?null:'1');paint();toast(on?'Contador escondido':'Contador liberado em Sobre')}
