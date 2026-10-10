@@ -91,6 +91,17 @@ main>footer{font-weight:400;animation:fb 3.6s ease-in-out .5s forwards}
 .swr{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
 .sw{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 4px;border:2px solid var(--bd);border-radius:12px;background:var(--bg);color:var(--tx);font:inherit;font-size:.8rem;cursor:pointer}
 .sw i{width:26px;height:26px;border-radius:50%}.sw.on{border-color:var(--ac);font-weight:700}
+.fill{flex:1;display:flex;flex-direction:column;gap:10px}
+.fill .mb{flex:1;min-height:0;flex-direction:row;align-items:center;gap:10px;padding:8px 12px;border-radius:14px}
+.fill .mb svg{width:24px;height:24px}
+.fill .mt{font-size:.95rem}.fill .ms{font-size:.72rem}
+#sb details{background:var(--card);border:1px solid var(--bd);border-radius:14px;margin-bottom:10px;padding:0 14px}
+#sb summary{cursor:pointer;padding:13px 0;font-weight:700;color:var(--ac);font-size:1.02rem;list-style:none;display:flex;justify-content:space-between}
+#sb summary::-webkit-details-marker{display:none}
+#sb summary::after{content:"+";font-size:1.3rem;line-height:1}
+#sb details[open] summary::after{content:"–"}
+#sb details p{margin:0 0 12px;font-size:.92rem}
+#sb details ul{margin:0 0 12px;padding-left:18px;font-size:.92rem}
 </style>
 </head>
 <body class="cv">
@@ -122,10 +133,22 @@ main>footer{font-weight:400;animation:fb 3.6s ease-in-out .5s forwards}
     </div>
     <div class="mcol"><div class="gh">Consultar</div>
       <button class="mb s" data-go="dash"><svg viewBox="0 0 24 24"><path d="M5 20V11M12 20V4M19 20v-6M2 20h20"/></svg><span class="mt">Visão Geral</span><span class="ms">Mês, média e meta</span></button>
-      <button class="mb s" data-go="rep"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h7"/></svg><span class="mt">Relatório de Atividades</span><span class="ms">Por mês, com PDF</span></button>
+      <button class="mb s" data-go="rep"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h7"/></svg><span class="mt">Relatório de Atividades</span><span class="ms">Por mês, com gráficos</span></button>
+      <div class="fill">
+        <button class="mb s" data-go="bk"><svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v3h16v-3"/></svg><span><span class="mt" style="display:block">Backup</span><span class="ms" id="bks">Salvar e restaurar</span></span></button>
+        <button class="mb s" data-go="sb"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg><span><span class="mt" style="display:block">Sobre</span><span class="ms">Como usar o app</span></span></button>
+      </div>
     </div>
   </div>
-  <button class="mb s mw" data-go="bk"><svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v3h16v-3"/></svg><span><span class="mt" style="display:block">Backup</span><span class="ms" id="bks">Salvar e restaurar seus dados</span></span></button>
+</section>
+
+<section id="sb" class="hide">
+  <h2 style="font-size:1.3rem;color:var(--ac);margin:0 0 12px">Sobre</h2>
+  <details open><summary>O que é o app</summary><p>O Relatório de Campo ajuda você a registrar horas, créditos de horas e estudos dirigidos, acompanhar sua meta e consultar o relatório do mês com gráficos e tabela.</p></details>
+  <details><summary>Como usar</summary><ul><li><b>Registrar Atividade:</b> data, horas, atividade e companheiro.</li><li><b>Registrar Estudos do Mês:</b> total de estudos dirigidos no mês.</li><li><b>Registrar Crédito de Horas:</b> soma na meta, mas não nas horas.</li><li><b>Visão Geral:</b> mês atual, média e velocímetro da meta.</li><li><b>Relatório de Atividades:</b> filtre o mês e veja os gráficos e a tabela.</li><li><b>Backup:</b> salve seus dados e restaure em outro aparelho.</li></ul></details>
+  <details><summary>Seus dados e privacidade</summary><p>Tudo fica só no seu aparelho. Nada é enviado a servidores, e ninguém vê seus registros.</p><p><b>Atenção:</b> se você limpar o navegador ou trocar de celular, os dados se perdem. Faça backup com frequência.</p></details>
+  <details><summary>Instalar no celular</summary><p><b>Android (Chrome):</b> toque em ⋮ e em <i>Instalar app</i>.</p><p><b>iPhone (Safari):</b> toque em Compartilhar e em <i>Adicionar à Tela de Início</i>.</p></details>
+  <div class="mut" style="text-align:center;font-size:.8rem;margin-top:14px">Versão 1.0 · atualizado em outubro de 2026</div>
 </section>
 
 <section id="bk" class="hide">
@@ -199,7 +222,7 @@ main>footer{font-weight:400;animation:fb 3.6s ease-in-out .5s forwards}
     <strong id="cft">Registrar Crédito de Horas</strong>
     <label for="cd">Data</label><input type="date" id="cd">
     <label for="ch">Crédito de horas</label><input type="number" id="ch" min="1" inputmode="numeric" placeholder="Ex.: 5">
-    <label for="ca">Atividade</label><input id="ca" placeholder="Ex.: campo, carrinho...">
+    <label for="ca">Atividade</label><input id="ca" placeholder="Ex.: Manutenção, Escolas Teocráticas">
     <div class="mut" id="cerr" style="color:var(--dg);margin-top:8px"></div>
     <button class="btn" id="csave">Adicionar</button>
     <button class="btn hide" id="ccancel" style="background:var(--bd);color:var(--tx);margin-top:8px">Cancelar edição</button>
@@ -226,9 +249,9 @@ main>footer{font-weight:400;animation:fb 3.6s ease-in-out .5s forwards}
   <div class="card">
     <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
       <strong id="rt">Relatório de atividades</strong>
-      <button class="noprint" id="pdf" style="padding:8px 12px;border-radius:10px;border:0;background:var(--ac);color:var(--acx);font:inherit;font-weight:600;cursor:pointer">Exportar PDF</button>
+      
     </div>
-    <div class="mut noprint" style="margin:6px 0">No diálogo de impressão, escolha “Salvar como PDF”.</div>
+    
     <div class="tw"><table>
       <thead><tr><th class="noprint"></th><th>Data</th><th>Atividade</th><th>Companheiro</th><th>Tempo</th><th>Crédito</th></tr></thead>
       <tbody id="tb"></tbody>
@@ -336,8 +359,8 @@ function render(){
   $('gn').setAttribute('transform','rotate('+(-90+pc*1.8)+' 100 100)');
   $('gt').textContent=(gm>0?Math.round(cur/gm*100):0)+'%';$('gmx').textContent=gm>0?Math.round(gm/60)+'h':'';
   $('gl').textContent=cc>0?`Horas ${fmt(hm)} + crédito ${cc/60}h`:'';
-  let bt='Backup ainda não feito',warn=true;
-  if(lastBk){const dd=Math.floor((new Date(today())-new Date(lastBk))/864e5);bt='Último backup: '+fd(lastBk)+(dd>=30?` (faz ${dd} dias)`:'');warn=dd>=30}
+  let bt='Ainda não feito',warn=true;
+  if(lastBk){const dd=Math.floor((new Date(today())-new Date(lastBk))/864e5);bt='Feito em '+fd(lastBk)+(dd>=30?` (${dd} dias)`:'');warn=dd>=30}
   $('bks').textContent=bt;$('bks').style.color=warn?'#c27c0e':'';$('bks').style.fontWeight=warn?'700':'';$('bks').style.opacity=warn?'1':'';
   const mset=new Set([...items.map(i=>i.date.slice(0,7)),...studies.map(x=>x.ym),...credits.map(c=>c.date.slice(0,7)),today().slice(0,7)]);
   if(!mset.has(fm))fm=today().slice(0,7);
@@ -368,7 +391,7 @@ function render(){
   const all=[...fl.map(o=>({k:'i',o})),...fc.map(o=>({k:'c',o}))].sort((a,b)=>b.o.date.localeCompare(a.o.date)||b.o.id-a.o.id);
   $('tb').innerHTML=all.map(({k,o})=>k==='i'?`<tr><td class="noprint act">${btn(pend===o.id,`ed="${o.id}"`,`id="${o.id}"`,`ok="${o.id}"`)}</td><td>${fd(o.date)}</td><td class="w">${esc(o.act)}</td><td class="w">${esc(o.com||'—')}</td><td>${fmt(o.min)}</td><td>—</td></tr>`:`<tr><td class="noprint act">${btn(pend==='c'+o.id,`ced="${o.id}"`,`cid="${o.id}"`,`cok="${o.id}"`)}</td><td>${fd(o.date)}</td><td class="w">${esc(o.act)}</td><td>—</td><td>—</td><td>${o.h}h</td></tr>`).join('')||'<tr><td colspan="6" class="mut">Sem registros neste filtro.</td></tr>';
 }
-function show(v){['menu','dash','home','cr','est','rep','bk'].forEach(a=>$(a).classList.toggle('hide',v!==a));$('back').classList.toggle('hide',v==='menu');scrollTo(0,0)}
+function show(v){['menu','dash','home','cr','est','rep','bk','sb'].forEach(a=>$(a).classList.toggle('hide',v!==a));$('back').classList.toggle('hide',v==='menu');scrollTo(0,0)}
 document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>show(b.dataset.go));
 $('back').onclick=()=>show('menu');
 $('fm').onchange=e=>{fm=e.target.value;render()};
@@ -453,7 +476,6 @@ $('sl').onclick=e=>{
   else if(d.sok){studies=studies.filter(z=>z.ym!==d.sok);pendS=null;persistS();render()}
   else if(d.sno){pendS=null;render()}
 };
-$('pdf').onclick=()=>window.print();
 document.querySelectorAll('.sw').forEach(b=>b.onclick=()=>{cor=b.dataset.cor;try{localStorage.setItem('tempo-cor',cor)}catch(e){}applyCor()});
 try{window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',applyCor)}catch(e){}
 try{if('serviceWorker' in navigator&&location.protocol.indexOf('http')===0)navigator.serviceWorker.register('sw.js')}catch(e){}
