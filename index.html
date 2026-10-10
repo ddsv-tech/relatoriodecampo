@@ -486,16 +486,16 @@ applyCor();
 render();
 /*CN*/
 (function(){
-  const API='https://api.counterapi.dev/v1/ddsv-tech-relatorio-de-campo/usuarios';
+  const API='https://countapi.mileshilliard.com/api/v1/',KEY='ddsv_tech_relatorio_de_campo_usuarios';
   const ls=(k,v)=>{try{if(v===undefined)return localStorage.getItem(k);if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){}return null};
-  const call=p=>fetch(API+p,{cache:'no-store'}).then(r=>{if(!r.ok)throw 0;return r.json()}).then(d=>{const n=Number(d&&d.count);if(!isFinite(n))throw 0;return n});
+  const call=op=>fetch(API+op+'/'+KEY,{cache:'no-store'}).then(r=>{if(r.status===404&&op==='get')return{value:0};if(!r.ok)throw 0;return r.json()}).then(d=>{const n=Number(d&&d.value);if(!isFinite(n))throw 0;return n});
   const paint=()=>{
     const on=ls('tempo-admin')==='1';
     $('cnw').classList.toggle('hide',!on);
-    if(on)call('').then(n=>{$('cn').textContent=n.toLocaleString('pt-BR')}).catch(()=>{$('cn').textContent='—'});
+    if(on)call('get').then(n=>{$('cn').textContent=n.toLocaleString('pt-BR')}).catch(()=>{$('cn').textContent='—'});
   };
   try{
-    if(ls('tempo-contou')!=='1')call('/up').then(()=>{ls('tempo-contou','1');paint()}).catch(paint);
+    if(ls('tempo-contou')!=='1')call('hit').then(()=>{ls('tempo-contou','1');paint()}).catch(paint);
     else paint();
   }catch(e){}
   document.querySelectorAll('[data-go="sb"]').forEach(b=>b.addEventListener('click',paint));
