@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#2f6f5e"><link rel="manifest" href="manifest.json"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png">
+<meta name="theme-color" content="#6b3fb0"><link rel="manifest" href="manifest.json"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png">
 <meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Relatório de Campo">
 <title>Relatório de Campo</title>
 <style>
-:root{--bg:#f6f5f2;--card:#fff;--tx:#1d1d1b;--mut:#6b6a66;--ac:#2f6f5e;--acx:#fff;--bd:#e2e0da;--dg:#b3392f;
+:root{--bg:#f6f2fb;--card:#fff;--tx:#20152e;--mut:#6f6283;--ac:#6b3fb0;--acx:#fff;--bd:#e3d9f0;--dg:#b3392f;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#171716;--card:#222220;--tx:#f0efe9;--mut:#9c9a92;--ac:#5fb89f;--acx:#10231d;--bd:#34332f;--dg:#e5776d}}
-:root[data-theme="dark"]{--bg:#171716;--card:#222220;--tx:#f0efe9;--mut:#9c9a92;--ac:#5fb89f;--acx:#10231d;--bd:#34332f;--dg:#e5776d}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#171220;--card:#231b30;--tx:#f1eaf9;--mut:#a99bc0;--ac:#b79cf0;--acx:#1e0f38;--bd:#3b2f4d;--dg:#e5776d}}
+:root[data-theme="dark"]{--bg:#171220;--card:#231b30;--tx:#f1eaf9;--mut:#a99bc0;--ac:#b79cf0;--acx:#1e0f38;--bd:#3b2f4d;--dg:#e5776d}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.4 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
@@ -46,7 +46,7 @@ body:not(.cv) #cover{display:none}
 @keyframes rf{to{background-position:-10px 30px}}
 #enter{animation:fin .5s ease 1s both}
 @keyframes fin{from{opacity:0;visibility:hidden}to{opacity:1;visibility:visible}}
-.cs{margin-top:4px}.cs .sw{padding:8px 4px}
+.cs{margin-top:4px}
 .st svg{display:block;fill:var(--tx);animation:bob .22s ease-in-out infinite alternate}
 .st line,.st polyline{stroke:var(--tx);stroke-linecap:round}
 .lg{animation:sw .4s ease-in-out infinite}
@@ -88,9 +88,9 @@ main>footer{font-weight:400;animation:fb 3.6s ease-in-out .5s forwards}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:9;max-width:90%;padding:12px 18px;border-radius:14px;background:var(--ac);color:var(--acx);font-weight:700;text-align:center;box-shadow:0 6px 18px rgba(0,0,0,.3)}
 .pie{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:10px}
 .pl{flex:1;min-width:150px}.pl div{display:flex;align-items:center;gap:8px;padding:4px 0;font-size:.9rem}.pl i{width:12px;height:12px;border-radius:3px;flex:none}.pl span{flex:1;overflow-wrap:anywhere}.pl b{white-space:nowrap;font-weight:600}
-.swr{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
-.sw{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 4px;border:2px solid var(--bd);border-radius:12px;background:var(--bg);color:var(--tx);font:inherit;font-size:.8rem;cursor:pointer}
-.sw i{width:26px;height:26px;border-radius:50%}.sw.on{border-color:var(--ac);font-weight:700}
+.swr{display:grid;grid-template-columns:repeat(7,minmax(0,44px));justify-content:center;gap:0;margin-top:10px}
+.sw{display:flex;align-items:center;justify-content:center;width:100%;aspect-ratio:1;padding:0;border:0;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.sw i{display:block;width:80%;height:80%;border-radius:50%;border:2px solid var(--bg);outline:2px solid var(--bd)}.sw.on i{outline:3px solid var(--ac)}.sw:focus-visible i{outline:3px solid var(--tx)}
 .fill{flex:1;display:flex;flex-direction:column;gap:10px}
 .fill .mb{flex:1;min-height:0;flex-direction:row;align-items:center;gap:10px;padding:8px 12px;border-radius:14px}
 .fill .mb svg{width:24px;height:24px}
@@ -125,7 +125,7 @@ main>footer{font-weight:400;animation:fb 3.6s ease-in-out .5s forwards}
   <h2>Relatório de Campo</h2>
   <div class="mut">Suas horas e estudos, sempre em dia.</div>
   <div class="lane" id="lane"></div>
-  <div class="cs"><div class="cap" style="margin-bottom:2px">Escolha a cor do app</div><div class="swr"><button class="sw" data-cor="padrao"><i style="background:#2f6f5e"></i>Padrão</button><button class="sw" data-cor="rosa"><i style="background:#b83b73"></i>Rosa</button><button class="sw" data-cor="azul"><i style="background:#2a5fa8"></i>Azul</button><button class="sw" data-cor="black"><i style="background:#111;border:1px solid #888"></i>Black</button></div></div>
+  <div class="cs"><div class="cap" style="margin-bottom:2px">Escolha a cor do app</div><div class="swr"><button class="sw" type="button" data-cor="padrao" aria-label="Roxo (padrão)" title="Roxo (padrão)"><i style="background:#6b3fb0"></i></button><button class="sw" type="button" data-cor="rosa" aria-label="Rosa" title="Rosa"><i style="background:#b83b73"></i></button><button class="sw" type="button" data-cor="azul" aria-label="Azul" title="Azul"><i style="background:#2a5fa8"></i></button><button class="sw" type="button" data-cor="verde" aria-label="Verde" title="Verde"><i style="background:#2f6f5e"></i></button><button class="sw" type="button" data-cor="amarelo" aria-label="Amarelo" title="Amarelo"><i style="background:#d4a017"></i></button><button class="sw" type="button" data-cor="cinza" aria-label="Cinza" title="Cinza"><i style="background:#6a717d"></i></button><button class="sw" type="button" data-cor="black" aria-label="Black" title="Black"><i style="background:#111;box-shadow:inset 0 0 0 1px #888"></i></button></div></div>
   <button class="btn" id="enter" style="margin:14px 0 0">Entrar</button>
 </section>
 
@@ -155,7 +155,7 @@ main>footer{font-weight:400;animation:fb 3.6s ease-in-out .5s forwards}
   <details><summary>Seus dados e privacidade</summary><p>Seus registros ficam só no seu aparelho, e ninguém os vê. O app só conta quantos aparelhos já o usaram, sem coletar nome, localização ou qualquer dado pessoal.</p><p><b>Atenção:</b> se você limpar o navegador ou trocar de celular, os dados se perdem. Faça backup com frequência.</p></details>
   <details><summary>Instalar no celular</summary><p><b>Android (Chrome):</b> toque em ⋮ e em <i>Instalar app</i>.</p><p><b>iPhone (Safari):</b> toque em Compartilhar e em <i>Adicionar à Tela de Início</i>.</p></details>
   <div id="cnw" class="hide"><div class="card" style="display:flex;align-items:center;justify-content:space-between;border:2px solid var(--ac);margin:10px 0 0"><span>Usuários do app</span><b id="cn" style="font-size:1.4rem;color:var(--ac)">—</b></div></div>
-  <div class="mut" style="text-align:center;font-size:.8rem;margin-top:14px">Versão 1.1 · atualizado em outubro de 2026</div>
+  <div class="mut" style="text-align:center;font-size:.8rem;margin-top:14px">Versão 1.3 · atualizado em outubro de 2026</div>
 </section>
 
 <section id="bk" class="hide">
@@ -287,11 +287,15 @@ const $=id=>document.getElementById(id);
   $('enter').onclick=()=>{document.body.classList.remove('cv');show('menu')};
 })();
 let lastBk=null,cor='padrao';try{lastBk=localStorage.getItem('tempo-bk');cor=localStorage.getItem('tempo-cor')||'padrao'}catch(e){}
+if(!['padrao','rosa','azul','verde','amarelo','cinza','black'].includes(cor))cor='padrao';
 const setBk=()=>{lastBk=today();try{localStorage.setItem('tempo-bk',lastBk)}catch(e){}};
 let tt_;const toast=t=>{const el=$('toast');el.textContent=t;el.classList.remove('hide');clearTimeout(tt_);tt_=setTimeout(()=>el.classList.add('hide'),4500)};
 const goalDone=()=>{const gm=(parseFloat(meta.h)||0)*60;if(gm<=0)return false;const t=today(),cy=yOf(t),f=d=>meta.p==='y'?yOf(d)===cy:d.slice(0,7)===t.slice(0,7);return items.filter(i=>f(i.date)).reduce((s,i)=>s+i.min,0)+credits.filter(c=>f(c.date)).reduce((s,c)=>s+c.h*60,0)>=gm};
 const PALS={rosa:{l:{'--bg':'#fbf3f6','--card':'#ffffff','--tx':'#2a1a22','--mut':'#7a6570','--ac':'#b83b73','--acx':'#ffffff','--bd':'#efd9e2'},d:{'--bg':'#1d1317','--card':'#2a1b22','--tx':'#f6eaf0','--mut':'#b39aa7','--ac':'#f08ab3','--acx':'#2b0f1c','--bd':'#43303a'}},
 azul:{l:{'--bg':'#f1f5fa','--card':'#ffffff','--tx':'#14202e','--mut':'#5f6f82','--ac':'#2a5fa8','--acx':'#ffffff','--bd':'#d9e2ee'},d:{'--bg':'#121821','--card':'#1b2430','--tx':'#e9f0f8','--mut':'#93a3b8','--ac':'#7fb0ee','--acx':'#0d1b2e','--bd':'#2d3a4b'}},
+amarelo:{l:{'--bg':'#fbf7e9','--card':'#ffffff','--tx':'#2a2410','--mut':'#7a6f4a','--ac':'#9c7200','--acx':'#ffffff','--bd':'#efe6c2'},d:{'--bg':'#1c1810','--card':'#2a2417','--tx':'#f8f1d8','--mut':'#b8aa7c','--ac':'#f2c94c','--acx':'#2b2200','--bd':'#453c24'}},
+cinza:{l:{'--bg':'#f2f3f5','--card':'#ffffff','--tx':'#1d1f23','--mut':'#6a6f78','--ac':'#555d6b','--acx':'#ffffff','--bd':'#dcdfe4'},d:{'--bg':'#16181b','--card':'#212428','--tx':'#eceef1','--mut':'#9aa0a9','--ac':'#aab2bf','--acx':'#14161a','--bd':'#343a42'}},
+verde:{l:{'--bg':'#f6f5f2','--card':'#ffffff','--tx':'#1d1d1b','--mut':'#6b6a66','--ac':'#2f6f5e','--acx':'#ffffff','--bd':'#e2e0da'},d:{'--bg':'#171716','--card':'#222220','--tx':'#f0efe9','--mut':'#9c9a92','--ac':'#5fb89f','--acx':'#10231d','--bd':'#34332f'}},
 black:{d:{'--bg':'#000000','--card':'#121212','--tx':'#f2f2f2','--mut':'#9a9a9a','--ac':'#e6e6e6','--acx':'#000000','--bd':'#2a2a2a'}}};
 function applyCor(){
   const r=document.documentElement,mm=window.matchMedia?window.matchMedia('(prefers-color-scheme: dark)'):null,dt=r.getAttribute('data-theme');
@@ -503,7 +507,7 @@ render();
   $('rdp').addEventListener('click',()=>{
     const n=Date.now();
     taps=(n-last>2000)?1:taps+1;last=n;
-    if(taps>=7){taps=0;showC()}
+    if(taps>=3){taps=0;showC()}
   });
 })();
 /*/CN*/
