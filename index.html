@@ -112,16 +112,6 @@ main>footer{font-weight:400;animation:fb 3.6s ease-in-out .5s forwards}
 .tot .sm{font-size:.82rem;color:var(--mut)}
 .alert.hide{display:none}
 .toast button{margin-left:12px;padding:6px 12px;border:0;border-radius:10px;background:var(--acx);color:var(--ac);font:inherit;font-weight:700;cursor:pointer}
-.bso{position:fixed;inset:0;z-index:20;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.5)}
-.bso.hide{display:none}
-.bss{width:100%;max-width:640px;background:var(--card);color:var(--tx);border-radius:20px 20px 0 0;padding:18px 16px calc(16px + env(safe-area-inset-bottom,0px));box-shadow:0 -8px 24px rgba(0,0,0,.3)}
-.bss h3{margin:0 0 4px;font-size:1.15rem;color:var(--ac)}
-.bso .bo{display:flex;align-items:center;gap:14px;width:100%;margin-top:10px;padding:14px;border:2px solid var(--ac);border-radius:14px;background:var(--bg);color:var(--tx);font:inherit;text-align:left;cursor:pointer}
-.bso .bo.hide{display:none}
-.bso .bo svg{width:28px;height:28px;flex:none;fill:none;stroke:var(--ac);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.bso .bo b{display:block;font-size:1rem}
-.bso .bo span{font-size:.82rem;color:var(--mut)}
-.bso .bc{width:100%;margin-top:12px;padding:12px;border:0;border-radius:12px;background:var(--bd);color:var(--tx);font:inherit;font-weight:600;cursor:pointer}
 .tot svg{width:34px;height:34px;flex:none;fill:none;stroke:var(--ac);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 </style>
 </head>
@@ -177,11 +167,11 @@ main>footer{font-weight:400;animation:fb 3.6s ease-in-out .5s forwards}
     <div class="mut" style="font-size:.8rem;margin-top:8px">Automático segue o modo do seu celular.</div>
   </div>
   <details open><summary>O que é o app</summary><p>O Relatório de Campo ajuda você a registrar horas, créditos de horas e estudos dirigidos, acompanhar sua meta e consultar o relatório do mês com gráficos e tabela.</p></details>
-  <details><summary>Como usar</summary><ul><li><b>Registrar Atividade:</b> data, horas, atividade e companheiro.</li><li><b>Registrar Estudos do Mês:</b> total de estudos dirigidos no mês.</li><li><b>Registrar Crédito de Horas:</b> soma na meta, mas não nas horas.</li><li><b>Visão Geral:</b> mês atual, média e velocímetro da meta.</li><li><b>Relatório de Atividades:</b> filtre o mês e veja os gráficos e a tabela.</li><li><b>Backup:</b> escolha onde salvar (arquivo ou texto) e restaure em outro aparelho.</li></ul></details>
+  <details><summary>Como usar</summary><ul><li><b>Registrar Atividade:</b> data, horas, atividade e companheiro.</li><li><b>Registrar Estudos do Mês:</b> total de estudos dirigidos no mês.</li><li><b>Registrar Crédito de Horas:</b> soma na meta, mas não nas horas.</li><li><b>Visão Geral:</b> mês atual, média e velocímetro da meta.</li><li><b>Relatório de Atividades:</b> filtre o mês e veja os gráficos e a tabela.</li><li><b>Backup:</b> escolha onde salvar (Drive, WhatsApp, pastas) e restaure em outro aparelho.</li></ul></details>
   <details><summary>Seus dados e privacidade</summary><p>Seus registros ficam só no seu aparelho, e ninguém os vê. O app só conta quantos aparelhos já o usaram, sem coletar nome, localização ou qualquer dado pessoal.</p><p><b>Atenção:</b> se você limpar o navegador ou trocar de celular, os dados se perdem. Faça backup com frequência.</p></details>
   <details><summary>Instalar no celular</summary><p><b>Android (Chrome):</b> toque em ⋮ e em <i>Instalar app</i>.</p><p><b>iPhone (Safari):</b> toque em Compartilhar e em <i>Adicionar à Tela de Início</i>.</p></details>
   <div id="cnw" class="hide"><div class="card" style="display:flex;align-items:center;justify-content:space-between;border:2px solid var(--ac);margin:10px 0 0"><span>Usuários do app</span><b id="cn" style="font-size:1.4rem;color:var(--ac)">—</b></div></div>
-  <div class="mut" style="text-align:center;font-size:.8rem;margin-top:14px">Versão 1.7 · atualizado em outubro de 2026</div>
+  <div class="mut" style="text-align:center;font-size:.8rem;margin-top:14px">Versão 1.8 · atualizado em outubro de 2026</div>
 </section>
 
 <section id="bk" class="hide">
@@ -189,7 +179,7 @@ main>footer{font-weight:400;animation:fb 3.6s ease-in-out .5s forwards}
     <strong>Backup</strong>
     <div class="mut" style="margin:4px 0 8px">Para trocar de aparelho: gere o backup aqui e restaure no novo.</div>
     <div class="row"><button class="btn" style="margin:0" id="bkg">Gerar backup</button><button class="btn" style="margin:0;background:var(--bd);color:var(--tx)" id="bkr">Restaurar backup</button></div>
-    <input type="file" id="bkf" accept=".json,application/json" class="hide">
+    <input type="file" id="bkf" accept=".json,.txt,application/json,text/plain" class="hide">
     <details style="margin-top:12px"><summary class="mut">Usar texto (copiar / colar)</summary>
       <textarea id="bkt" rows="4" style="width:100%;margin-top:8px;padding:10px;border:1px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx);font:12px monospace" placeholder="O backup aparece aqui. Para restaurar, cole o texto e toque no botão abaixo."></textarea>
       <button class="btn" style="margin-top:8px;background:var(--bd);color:var(--tx)" id="bkp">Restaurar do texto</button>
@@ -295,15 +285,6 @@ main>footer{font-weight:400;animation:fb 3.6s ease-in-out .5s forwards}
     <tfoot><tr><td id="ytl">Total do ano</td><td id="ytot">0h 00min</td><td id="yct">0h</td><td id="yet">0</td></tr></tfoot></table></div>
   </div>
 </section>
-<div id="bsh" class="bso hide" role="dialog" aria-modal="true" aria-labelledby="bst">
-  <div class="bss">
-    <h3 id="bst">Onde deseja salvar o backup?</h3>
-    <div class="mut">Escolha um destino. O backup só conta como feito quando der certo.</div>
-    <button class="bo" type="button" id="bs2"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v3h16v-3"/></svg><div><b>Salvar arquivo no aparelho</b><span>Arquivo .json na pasta de downloads</span></div></button>
-    <button class="bo" type="button" id="bs3"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h8"/></svg><div><b>Copiar texto</b><span>Para colar em notas ou mensagem</span></div></button>
-    <button class="bc" type="button" id="bsx">Cancelar</button>
-  </div>
-</div>
 <div id="toast" class="toast hide"></div>
 <footer id="rdp" class="mut noprint" style="text-align:center;font-size:.8rem;margin:4px 0 0;padding:8px 0;user-select:none;-webkit-user-select:none;touch-action:manipulation">© 2026 ddsv-tech. Todos os direitos reservados.</footer>
 </main>
@@ -478,37 +459,36 @@ const saveMeta=()=>{meta={h:$('gh').value,p:$('gp').value};try{localStorage.setI
 $('gh').onchange=saveMeta;$('gp').onchange=saveMeta;
 const bm=t=>$('bkm').textContent=t;
 let bkTxt='';
-const bsh=$('bsh'),bkName=()=>'backup-tempo-'+today()+'.json',bkClose=()=>bsh.classList.add('hide');
-const bkDone=t=>{setBk();render();bm(t)};
-$('bkg').onclick=()=>{
-  bkTxt=JSON.stringify({app:'registro-de-tempo',v:3,items,studies,credits,meta},null,1);
-  $('bkt').value=bkTxt;
-  bsh.classList.remove('hide');$('bs2').focus();
-};
-$('bs2').onclick=async()=>{
-  bkClose();
-  if(window.showSaveFilePicker){
-    try{const h=await window.showSaveFilePicker({suggestedName:bkName(),types:[{description:'Backup',accept:{'application/json':['.json']}}]});const w=await h.createWritable();await w.write(bkTxt);await w.close();bkDone('Backup salvo no local escolhido.')}
-    catch(e){bm(e&&e.name==='AbortError'?'Backup cancelado. Nada foi salvo.':'Não foi possível salvar. Tente \u201cCopiar texto\u201d.')}
-    return;
+const bkName=()=>'backup-tempo-'+today()+'.json',bkDone=t=>{setBk();render();bm(t)};
+function bkFile(){
+  for(const [n,t] of [[bkName(),'application/json'],[bkName(),'text/plain'],[bkName().replace('.json','.txt'),'text/plain']]){
+    try{const f=new File([bkTxt],n,{type:t});if(navigator.canShare&&navigator.canShare({files:[f]}))return f}catch(e){}
   }
+  return null;
+}
+function bkDownload(){
   try{
     const u=URL.createObjectURL(new Blob([bkTxt],{type:'application/json'}));
     const l=document.createElement('a');l.href=u;l.download=bkName();
     document.body.appendChild(l);l.click();l.remove();setTimeout(()=>URL.revokeObjectURL(u),2000);
     bkDone('Backup baixado. Verifique a pasta de downloads.');
-  }catch(e){bm('Não foi possível baixar o arquivo. Abra \u201cUsar texto\u201d abaixo e copie o conteúdo.');$('bkt').closest('details').open=true}
+  }catch(e){bm('Não foi possível salvar. Abra \u201cUsar texto\u201d abaixo e copie o conteúdo.');$('bkt').closest('details').open=true}
+}
+async function bkPicker(){
+  try{const h=await window.showSaveFilePicker({suggestedName:bkName(),types:[{description:'Backup',accept:{'application/json':['.json']}}]});const w=await h.createWritable();await w.write(bkTxt);await w.close();bkDone('Backup salvo no local escolhido.')}
+  catch(e){if(e&&e.name==='AbortError')bm('Backup cancelado. Nada foi salvo.');else bkDownload()}
+}
+$('bkg').onclick=()=>{
+  bkTxt=JSON.stringify({app:'registro-de-tempo',v:3,items,studies,credits,meta},null,1);
+  $('bkt').value=bkTxt;
+  const f=typeof navigator.share==='function'?bkFile():null;
+  if(f){
+    navigator.share({files:[f],title:'Backup do Relatório de Campo'}).then(
+      ()=>bkDone('Backup enviado. Confira se ele chegou ao destino escolhido.'),
+      e=>{if(e&&e.name==='AbortError')bm('Backup cancelado. Nada foi salvo.');else if(window.showSaveFilePicker)bkPicker();else bkDownload()});
+  }else if(window.showSaveFilePicker)bkPicker();
+  else bkDownload();
 };
-$('bs3').onclick=async()=>{
-  bkClose();let ok=false;
-  try{await navigator.clipboard.writeText(bkTxt);ok=true}catch(e){}
-  if(!ok){try{const t=$('bkt');t.closest('details').open=true;t.focus();t.select();ok=document.execCommand('copy')}catch(e){}}
-  if(ok)bkDone('Texto copiado. Cole em um lugar seguro, como suas notas.');
-  else{$('bkt').closest('details').open=true;bm('Não consegui copiar sozinha. Toque no texto abaixo, copie e guarde.')}
-};
-$('bsx').onclick=bkClose;
-bsh.addEventListener('click',e=>{if(e.target===bsh)bkClose()});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')bkClose()});
 function restore(txt){
   try{
     const d=JSON.parse(txt);
