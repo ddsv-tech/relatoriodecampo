@@ -171,7 +171,7 @@ main>footer{font-weight:400;animation:fb 3.6s ease-in-out .5s forwards}
   <details><summary>Seus dados e privacidade</summary><p>Seus registros ficam só no seu aparelho, e ninguém os vê. O app só conta quantos aparelhos já o usaram, sem coletar nome, localização ou qualquer dado pessoal.</p><p><b>Atenção:</b> se você limpar o navegador ou trocar de celular, os dados se perdem. Faça backup com frequência.</p></details>
   <details><summary>Instalar no celular</summary><p><b>Android (Chrome):</b> toque em ⋮ e em <i>Instalar app</i>.</p><p><b>iPhone (Safari):</b> toque em Compartilhar e em <i>Adicionar à Tela de Início</i>.</p></details>
   <div id="cnw" class="hide"><div class="card" style="display:flex;align-items:center;justify-content:space-between;border:2px solid var(--ac);margin:10px 0 0"><span>Usuários do app</span><b id="cn" style="font-size:1.4rem;color:var(--ac)">—</b></div></div>
-  <div class="mut" style="text-align:center;font-size:.8rem;margin-top:14px">Versão 1.8 · atualizado em outubro de 2026</div>
+  <div class="mut" style="text-align:center;font-size:.8rem;margin-top:14px">Versão 1.9 · atualizado em outubro de 2026</div>
 </section>
 
 <section id="bk" class="hide">
@@ -466,28 +466,33 @@ function bkFile(){
   }
   return null;
 }
-function bkDownload(){
+function bkDownload(why){
   try{
     const u=URL.createObjectURL(new Blob([bkTxt],{type:'application/json'}));
     const l=document.createElement('a');l.href=u;l.download=bkName();
     document.body.appendChild(l);l.click();l.remove();setTimeout(()=>URL.revokeObjectURL(u),2000);
-    bkDone('Backup baixado. Verifique a pasta de downloads.');
+    bkDone('Backup baixado na pasta de downloads.'+(why?' Compartilhar não funcionou neste navegador ('+why+').':''));
   }catch(e){bm('Não foi possível salvar. Abra \u201cUsar texto\u201d abaixo e copie o conteúdo.');$('bkt').closest('details').open=true}
 }
-async function bkPicker(){
+async function bkPicker(why){
   try{const h=await window.showSaveFilePicker({suggestedName:bkName(),types:[{description:'Backup',accept:{'application/json':['.json']}}]});const w=await h.createWritable();await w.write(bkTxt);await w.close();bkDone('Backup salvo no local escolhido.')}
-  catch(e){if(e&&e.name==='AbortError')bm('Backup cancelado. Nada foi salvo.');else bkDownload()}
+  catch(e){if(e&&e.name==='AbortError')bm('Backup cancelado. Nada foi salvo.');else bkDownload(why)}
+}
+const bkFall=why=>window.showSaveFilePicker?bkPicker(why):bkDownload(why);
+function bkShareText(why){
+  navigator.share({title:'Backup do Relatório de Campo',text:bkTxt}).then(
+    ()=>bkDone('Backup enviado como texto. Confira se chegou ao destino escolhido.'),
+    e=>{if(e&&e.name==='AbortError')bm('Backup cancelado. Nada foi salvo.');else bkFall(why+'; texto: '+(e&&e.name||'erro'))});
 }
 $('bkg').onclick=()=>{
   bkTxt=JSON.stringify({app:'registro-de-tempo',v:3,items,studies,credits,meta},null,1);
   $('bkt').value=bkTxt;
-  const f=typeof navigator.share==='function'?bkFile():null;
-  if(f){
-    navigator.share({files:[f],title:'Backup do Relatório de Campo'}).then(
-      ()=>bkDone('Backup enviado. Confira se ele chegou ao destino escolhido.'),
-      e=>{if(e&&e.name==='AbortError')bm('Backup cancelado. Nada foi salvo.');else if(window.showSaveFilePicker)bkPicker();else bkDownload()});
-  }else if(window.showSaveFilePicker)bkPicker();
-  else bkDownload();
+  if(typeof navigator.share!=='function'){bkFall('sem compartilhar, https='+window.isSecureContext);return}
+  const f=bkFile();
+  if(f)navigator.share({files:[f],title:'Backup do Relatório de Campo'}).then(
+    ()=>bkDone('Backup enviado. Confira se ele chegou ao destino escolhido.'),
+    e=>{if(e&&e.name==='AbortError')bm('Backup cancelado. Nada foi salvo.');else bkShareText('arquivo: '+(e&&e.name||'erro'))});
+  else bkShareText('arquivo não aceito');
 };
 function restore(txt){
   try{
