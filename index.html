@@ -56,7 +56,6 @@ body:not(.cv) #cover{display:none}
 @keyframes r2{0%,50%{left:-150px}87.5%,100%{left:100%}}
 @keyframes bob{to{transform:translateY(-4px)}}
 @keyframes sw{0%,100%{transform:rotate(-34deg)}50%{transform:rotate(34deg)}}
-@keyframes sa{0%,100%{transform:rotate(-26deg)}50%{transform:rotate(26deg)}}
 @keyframes spin{to{transform:rotate(360deg)}}
 .hm,.hh{transform-origin:60px 60px;animation:spin 1.2s linear infinite}.hh{animation-duration:9s}
 @media (prefers-reduced-motion:reduce){.hm,.hh,.st,.st svg,.lg,.arm,.rain,#enter{animation:none}.st{left:30%}.rain,.s2{display:none}}
@@ -88,7 +87,7 @@ main>footer{font-weight:400;animation:fb 3.6s ease-in-out .5s forwards}
 .congrats{margin-top:12px;padding:12px;border-radius:12px;background:var(--ac);color:var(--acx);text-align:center;font-weight:600}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:9;max-width:90%;padding:12px 18px;border-radius:14px;background:var(--ac);color:var(--acx);font-weight:700;text-align:center;box-shadow:0 6px 18px rgba(0,0,0,.3)}
 .pie{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:10px}
-.pl{flex:1;min-width:150px}.pl div{display:flex;align-items:center;gap:8px;padding:4px 0;font-size:.9rem}.pl i{width:12px;height:12px;border-radius:3px;flex:none}.pl span{flex:1;overflow-wrap:anywhere}.pl b{white-space:nowrap;font-weight:600}
+.pl{flex:1;min-width:150px}.pl div{display:flex;flex-wrap:wrap;align-items:center;gap:2px 8px;padding:4px 0;font-size:.9rem}.pl i{width:12px;height:12px;border-radius:3px;flex:none}.pl span{flex:1 1 70px;min-width:70px;overflow-wrap:anywhere}.pl b{white-space:nowrap;font-weight:600}
 .swr{display:grid;grid-template-columns:repeat(7,minmax(0,44px));justify-content:center;gap:0;margin-top:10px}
 .sw{display:flex;align-items:center;justify-content:center;width:100%;aspect-ratio:1;padding:0;border:0;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .sw i{display:block;width:80%;height:80%;border-radius:50%;border:2px solid var(--bg);outline:2px solid var(--bd)}.sw.on i{outline:3px solid var(--ac)}.sw:focus-visible i{outline:3px solid var(--tx)}
@@ -111,6 +110,18 @@ main>footer{font-weight:400;animation:fb 3.6s ease-in-out .5s forwards}
 .tot .cp{font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
 .tot .big{font-size:1.9rem;font-weight:800;color:var(--ac);line-height:1.1}
 .tot .sm{font-size:.82rem;color:var(--mut)}
+.alert.hide{display:none}
+.toast button{margin-left:12px;padding:6px 12px;border:0;border-radius:10px;background:var(--acx);color:var(--ac);font:inherit;font-weight:700;cursor:pointer}
+.bso{position:fixed;inset:0;z-index:20;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.5)}
+.bso.hide{display:none}
+.bss{width:100%;max-width:640px;background:var(--card);color:var(--tx);border-radius:20px 20px 0 0;padding:18px 16px calc(16px + env(safe-area-inset-bottom,0px));box-shadow:0 -8px 24px rgba(0,0,0,.3)}
+.bss h3{margin:0 0 4px;font-size:1.15rem;color:var(--ac)}
+.bso .bo{display:flex;align-items:center;gap:14px;width:100%;margin-top:10px;padding:14px;border:2px solid var(--ac);border-radius:14px;background:var(--bg);color:var(--tx);font:inherit;text-align:left;cursor:pointer}
+.bso .bo.hide{display:none}
+.bso .bo svg{width:28px;height:28px;flex:none;fill:none;stroke:var(--ac);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.bso .bo b{display:block;font-size:1rem}
+.bso .bo span{font-size:.82rem;color:var(--mut)}
+.bso .bc{width:100%;margin-top:12px;padding:12px;border:0;border-radius:12px;background:var(--bd);color:var(--tx);font:inherit;font-weight:600;cursor:pointer}
 .tot svg{width:34px;height:34px;flex:none;fill:none;stroke:var(--ac);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 </style>
 </head>
@@ -135,6 +146,7 @@ main>footer{font-weight:400;animation:fb 3.6s ease-in-out .5s forwards}
 </section>
 
 <section id="menu" class="hide">
+  <div id="bal" class="alert hide"><span id="balt"></span><button type="button" id="balb">Fazer backup</button></div>
   <div class="tot"><div><div class="cp" id="tl">Total do mês</div><div class="big" id="tot">0h 00min</div><div class="sm"><span id="cnt">0 registros no mês</span> · <span id="tcr">Crédito: 0h</span></div></div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
   <div class="mgrid">
     <div class="mcol"><div class="gh">Registrar</div>
@@ -165,11 +177,11 @@ main>footer{font-weight:400;animation:fb 3.6s ease-in-out .5s forwards}
     <div class="mut" style="font-size:.8rem;margin-top:8px">Automático segue o modo do seu celular.</div>
   </div>
   <details open><summary>O que é o app</summary><p>O Relatório de Campo ajuda você a registrar horas, créditos de horas e estudos dirigidos, acompanhar sua meta e consultar o relatório do mês com gráficos e tabela.</p></details>
-  <details><summary>Como usar</summary><ul><li><b>Registrar Atividade:</b> data, horas, atividade e companheiro.</li><li><b>Registrar Estudos do Mês:</b> total de estudos dirigidos no mês.</li><li><b>Registrar Crédito de Horas:</b> soma na meta, mas não nas horas.</li><li><b>Visão Geral:</b> mês atual, média e velocímetro da meta.</li><li><b>Relatório de Atividades:</b> filtre o mês e veja os gráficos e a tabela.</li><li><b>Backup:</b> salve seus dados e restaure em outro aparelho.</li></ul></details>
+  <details><summary>Como usar</summary><ul><li><b>Registrar Atividade:</b> data, horas, atividade e companheiro.</li><li><b>Registrar Estudos do Mês:</b> total de estudos dirigidos no mês.</li><li><b>Registrar Crédito de Horas:</b> soma na meta, mas não nas horas.</li><li><b>Visão Geral:</b> mês atual, média e velocímetro da meta.</li><li><b>Relatório de Atividades:</b> filtre o mês e veja os gráficos e a tabela.</li><li><b>Backup:</b> escolha onde salvar (Drive, downloads ou texto) e restaure em outro aparelho.</li></ul></details>
   <details><summary>Seus dados e privacidade</summary><p>Seus registros ficam só no seu aparelho, e ninguém os vê. O app só conta quantos aparelhos já o usaram, sem coletar nome, localização ou qualquer dado pessoal.</p><p><b>Atenção:</b> se você limpar o navegador ou trocar de celular, os dados se perdem. Faça backup com frequência.</p></details>
   <details><summary>Instalar no celular</summary><p><b>Android (Chrome):</b> toque em ⋮ e em <i>Instalar app</i>.</p><p><b>iPhone (Safari):</b> toque em Compartilhar e em <i>Adicionar à Tela de Início</i>.</p></details>
   <div id="cnw" class="hide"><div class="card" style="display:flex;align-items:center;justify-content:space-between;border:2px solid var(--ac);margin:10px 0 0"><span>Usuários do app</span><b id="cn" style="font-size:1.4rem;color:var(--ac)">—</b></div></div>
-  <div class="mut" style="text-align:center;font-size:.8rem;margin-top:14px">Versão 1.4 · atualizado em outubro de 2026</div>
+  <div class="mut" style="text-align:center;font-size:.8rem;margin-top:14px">Versão 1.6 · atualizado em outubro de 2026</div>
 </section>
 
 <section id="bk" class="hide">
@@ -182,6 +194,7 @@ main>footer{font-weight:400;animation:fb 3.6s ease-in-out .5s forwards}
       <textarea id="bkt" rows="4" style="width:100%;margin-top:8px;padding:10px;border:1px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx);font:12px monospace" placeholder="O backup aparece aqui. Para restaurar, cole o texto e toque no botão abaixo."></textarea>
       <button class="btn" style="margin-top:8px;background:var(--bd);color:var(--tx)" id="bkp">Restaurar do texto</button>
     </details>
+    <div class="mut" style="margin-top:10px;font-size:.85rem">Restaurar só acrescenta o que ainda não existe neste aparelho. Registros que já existem não são alterados.</div>
     <div id="bkm" class="mut" style="margin-top:8px"></div>
   </div>
 </section>
@@ -282,6 +295,16 @@ main>footer{font-weight:400;animation:fb 3.6s ease-in-out .5s forwards}
     <tfoot><tr><td id="ytl">Total do ano</td><td id="ytot">0h 00min</td><td id="yct">0h</td><td id="yet">0</td></tr></tfoot></table></div>
   </div>
 </section>
+<div id="bsh" class="bso hide" role="dialog" aria-modal="true" aria-labelledby="bst">
+  <div class="bss">
+    <h3 id="bst">Onde deseja salvar o backup?</h3>
+    <div class="mut">Escolha um destino. O backup só conta como feito quando der certo.</div>
+    <button class="bo" type="button" id="bs1"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.5l6.8-4M8.6 13.5l6.8 4"/></svg><div><b>Google Drive e outros apps</b><span>Abre a lista do celular: escolha Drive, WhatsApp, e-mail…</span></div></button>
+    <button class="bo" type="button" id="bs2"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v3h16v-3"/></svg><div><b>Baixar no aparelho</b><span>Salva o arquivo na pasta de downloads</span></div></button>
+    <button class="bo" type="button" id="bs3"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h8"/></svg><div><b>Copiar texto</b><span>Para colar em notas ou mensagem</span></div></button>
+    <button class="bc" type="button" id="bsx">Cancelar</button>
+  </div>
+</div>
 <div id="toast" class="toast hide"></div>
 <footer id="rdp" class="mut noprint" style="text-align:center;font-size:.8rem;margin:4px 0 0;padding:8px 0;user-select:none;-webkit-user-select:none;touch-action:manipulation">© 2026 ddsv-tech. Todos os direitos reservados.</footer>
 </main>
@@ -304,6 +327,7 @@ let lastBk=null,cor='padrao';try{lastBk=localStorage.getItem('tempo-bk');cor=loc
 if(!['padrao','rosa','azul','verde','amarelo','cinza','black'].includes(cor))cor='padrao';
 const setBk=()=>{lastBk=today();try{localStorage.setItem('tempo-bk',lastBk)}catch(e){}};
 let tt_;const toast=t=>{const el=$('toast');el.textContent=t;el.classList.remove('hide');clearTimeout(tt_);tt_=setTimeout(()=>el.classList.add('hide'),4500)};
+const toastU=(t,fn)=>{const el=$('toast');el.textContent=t+' ';const b=document.createElement('button');b.type='button';b.textContent='Desfazer';b.onclick=()=>{clearTimeout(tt_);el.classList.add('hide');fn()};el.appendChild(b);el.classList.remove('hide');clearTimeout(tt_);tt_=setTimeout(()=>el.classList.add('hide'),6000)};
 const goalDone=()=>{const gm=(parseFloat(meta.h)||0)*60;if(gm<=0)return false;const t=today(),cy=yOf(t),f=d=>meta.p==='y'?yOf(d)===cy:d.slice(0,7)===t.slice(0,7);return items.filter(i=>f(i.date)).reduce((s,i)=>s+i.min,0)+credits.filter(c=>f(c.date)).reduce((s,c)=>s+c.h*60,0)>=gm};
 const PALS={rosa:{l:{'--bg':'#fbf3f6','--card':'#ffffff','--tx':'#2a1a22','--mut':'#7a6570','--ac':'#b83b73','--acx':'#ffffff','--bd':'#efd9e2'},d:{'--bg':'#1d1317','--card':'#2a1b22','--tx':'#f6eaf0','--mut':'#b39aa7','--ac':'#f08ab3','--acx':'#2b0f1c','--bd':'#43303a'}},
 azul:{l:{'--bg':'#f1f5fa','--card':'#ffffff','--tx':'#14202e','--mut':'#5f6f82','--ac':'#2a5fa8','--acx':'#ffffff','--bd':'#d9e2ee'},d:{'--bg':'#121821','--card':'#1b2430','--tx':'#e9f0f8','--mut':'#93a3b8','--ac':'#7fb0ee','--acx':'#0d1b2e','--bd':'#2d3a4b'}},
@@ -380,25 +404,20 @@ function render(){
   $('gn').setAttribute('transform','rotate('+(-90+pc*1.8)+' 100 100)');
   $('gt').textContent=(gm>0?Math.round(cur/gm*100):0)+'%';$('gmx').textContent=gm>0?Math.round(gm/60)+'h':'';
   $('gl').textContent=cc>0?`Horas ${fmt(hm)} + crédito ${cc/60}h`:'';
-  let bt='Ainda não feito',warn=true;
-  if(lastBk){const dd=Math.floor((new Date(today())-new Date(lastBk))/864e5);bt='Feito em '+fd(lastBk)+(dd>=30?` (${dd} dias)`:'');warn=dd>=30}
+  let bt='Ainda não feito',warn=true,dd=0;
+  if(lastBk){dd=Math.floor((new Date(today())-new Date(lastBk))/864e5);bt='Feito em '+fd(lastBk)+(dd>=30?` (${dd} dias)`:'');warn=dd>=30}
   $('bks').textContent=bt;$('bks').style.color=warn?'#c27c0e':'';$('bks').style.fontWeight=warn?'700':'';$('bks').style.opacity=warn?'1':'';
+  $('bal').classList.toggle('hide',!(warn&&items.length+studies.length+credits.length>0));
+  $('balt').textContent=lastBk?`Seu último backup foi há ${dd} dias.`:'Você ainda não fez backup dos seus registros.';
   const mset=new Set([...items.map(i=>i.date.slice(0,7)),...studies.map(x=>x.ym),...credits.map(c=>c.date.slice(0,7)),today().slice(0,7)]);
   if(!mset.has(fm))fm=today().slice(0,7);
   $('fm').innerHTML=[...mset].sort().reverse().map(ym=>{const[y,m]=ym.split('-');return `<option value="${ym}"${ym===fm?' selected':''}>${MES[+m-1]} de ${y}</option>`}).join('');
   fy=yOf(fm+'-01');
   // totais por mês
   const yi=items.filter(i=>yOf(i.date)===fy);
-  const rf='',rto='',rng=false,inR=()=>true;
-  const yt=yi.reduce((s,i)=>s+i.min,0);$('ytot').textContent=fmt(yt);
-  const pl=rng?`${rf?fd(rf):'início'} – ${rto?fd(rto):'hoje'}`:`Set/${fy} – Ago/${fy+1}`;
-  let rows=[];
-  if(rng){const all=[...items.map(i=>i.date.slice(0,7)),...studies.map(x=>x.ym),today().slice(0,7)].sort();let a=rf?rf.slice(0,7):all[0];const z=rto?rto.slice(0,7):all[all.length-1];
-    for(let q=0;q<72&&a<=z;q++){rows.push(a);let[y,m]=a.split('-').map(Number);m++;if(m>12){m=1;y++}a=y+'-'+String(m).padStart(2,'0')}}
-  else rows=ORD.map(m=>(m>=9?fy:fy+1)+'-'+String(m).padStart(2,'0'));
-  const src=rng?items.filter(i=>inR(i.date)):yi;let th=0,te=0,tc=0;const cyi=credits.filter(c=>yOf(c.date)===fy);
+  const pl=`Set/${fy} – Ago/${fy+1}`,rows=ORD.map(m=>(m>=9?fy:fy+1)+'-'+String(m).padStart(2,'0')),src=yi;let th=0,te=0,tc=0;const cyi=credits.filter(c=>yOf(c.date)===fy);
   $('mt').innerHTML=rows.map(ym=>{const t=src.filter(i=>i.date.slice(0,7)===ym).reduce((s,i)=>s+i.min,0),sx=studies.find(x=>x.ym===ym),[y,m]=ym.split('-');const ch=cyi.filter(c=>c.date.slice(0,7)===ym).reduce((s,c)=>s+c.h,0);th+=t;tc+=ch;te+=sx?sx.n:0;return `<tr><td>${MES[+m-1]} ${y}</td><td>${fmt(t)}</td><td>${ch?ch+'h':'—'}</td><td>${sx?sx.n:'—'}</td></tr>`}).join('');
-  $('ytot').textContent=fmt(th);$('yet').textContent=te;$('yct').textContent=tc+'h';$('yt').textContent='Totais por mês · '+pl;$('ytl').textContent=rng?'Total do período':'Total do ano';
+  $('ytot').textContent=fmt(th);$('yet').textContent=te;$('yct').textContent=tc+'h';$('yt').textContent='Totais por mês · '+pl;$('ytl').textContent='Total do ano';
   const sl=[...studies].sort((a,b)=>b.ym.localeCompare(a.ym));
   $('sl').innerHTML=sl.map(x=>{const[y,m]=x.ym.split('-');return `<tr><td class="noprint act">${pendS===x.ym?`<button class="x" style="font-size:.9rem;font-weight:700" data-sok="${x.ym}">Excluir?</button><button class="x e" style="font-size:.9rem" data-sno="1">Não</button>`:`<button class="x e" data-sed="${x.ym}" aria-label="Editar">✎</button><button class="x" data-sid="${x.ym}" aria-label="Excluir">✕</button>`}</td><td>${MES[+m-1]} de ${y}</td><td>${x.n}</td></tr>`}).join('')||'<tr><td colspan="3" class="mut">Nada ainda.</td></tr>';
   // relatório filtrado
@@ -415,14 +434,19 @@ function render(){
 function show(v){['menu','dash','home','cr','est','rep','bk','sb'].forEach(a=>$(a).classList.toggle('hide',v!==a));$('back').classList.toggle('hide',v==='menu');scrollTo(0,0)}
 document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>show(b.dataset.go));
 $('back').onclick=()=>show('menu');
+$('balb').onclick=()=>show('bk');
 $('fm').onchange=e=>{fm=e.target.value;render()};
 function resetForm(){editId=null;['h','m','a','c'].forEach(k=>$(k).value='');$('d').value=today();lockDate(true);$('ft').textContent='Registrar Atividade';$('save').textContent='Adicionar';$('cancel').classList.add('hide');$('err').textContent=''}
 $('d').value=today();
-const lockDate=(on,el=$('d'))=>{const t=today(),n=new Date(+t.slice(0,4),+t.slice(5,7),0).getDate();el.min=on?t.slice(0,7)+'-01':'';el.max=on?t.slice(0,7)+'-'+String(n).padStart(2,'0'):''};
+const GRACE=5;
+const minD=()=>{const t=today();let y=+t.slice(0,4),m=+t.slice(5,7);if(+t.slice(8,10)<=GRACE){m--;if(m<1){m=12;y--}}return y+'-'+String(m).padStart(2,'0')+'-01'};
+const okD=d=>d>=minD()&&d.slice(0,7)<=today().slice(0,7);
+const dmsg=()=>'A data deve ser do mês vigente'+(minD().slice(0,7)<today().slice(0,7)?' ou do mês anterior.':'.');
+const lockDate=(on,el=$('d'))=>{const t=today(),n=new Date(+t.slice(0,4),+t.slice(5,7),0).getDate();el.min=on?minD():'';el.max=on?t.slice(0,7)+'-'+String(n).padStart(2,'0'):''};
 lockDate(true);$('cd').value=today();lockDate(true,$('cd'));
 $('save').onclick=()=>{
   const h=parseInt($('h').value)||0,m=parseInt($('m').value)||0,act=$('a').value.trim(),d=$('d').value;
-  const e=!d?'Informe a data.':(!editId&&d.slice(0,7)!==today().slice(0,7))?'A data deve ser do mês vigente.':!act?'Informe a atividade.':(h*60+m)<=0?'Informe horas e/ou minutos.':'';
+  const e=!d?'Informe a data.':(!editId&&!okD(d))?dmsg():!act?'Informe a atividade.':(h*60+m)<=0?'Informe horas e/ou minutos.':'';
   $('err').textContent=e;if(e)return;
   const was=goalDone(),r={date:d,min:h*60+m,act,com:$('c').value.trim()};
   if(editId){items=items.map(i=>i.id===editId?{...i,...r}:i)}else{items.push({id:Date.now(),...r})}
@@ -436,15 +460,15 @@ $('tb').onclick=e=>{
   else if(d.ced){const c=credits.find(x=>x.id==d.ced);editCid=c.id;$('cd').value=c.date;$('ch').value=c.h;$('ca').value=c.act;lockDate(false,$('cd'));$('cft').textContent='Editar Crédito de Horas';$('csave').textContent='Salvar alterações';$('ccancel').classList.remove('hide');show('cr')}
   else if(d.id){pend=+d.id;render()}
   else if(d.cid){pend='c'+d.cid;render()}
-  else if(d.ok){const k=+d.ok;items=items.filter(i=>i.id!==k);if(editId===k)resetForm();pend=null;persist();render()}
-  else if(d.cok){const k=+d.cok;credits=credits.filter(c=>c.id!==k);if(editCid===k)resetC();pend=null;persistC();render()}
+  else if(d.ok){const k=+d.ok,rm=items.find(i=>i.id===k);items=items.filter(i=>i.id!==k);if(editId===k)resetForm();pend=null;persist();render();if(rm)toastU('Registro excluído.',()=>{items.push(rm);persist();render()})}
+  else if(d.cok){const k=+d.cok,rm=credits.find(c=>c.id===k);credits=credits.filter(c=>c.id!==k);if(editCid===k)resetC();pend=null;persistC();render();if(rm)toastU('Crédito excluído.',()=>{credits.push(rm);persistC();render()})}
   else if(d.no){pend=null;render()}
 };
 function resetC(){editCid=null;$('ch').value='';$('ca').value='';$('cd').value=today();lockDate(true,$('cd'));$('cft').textContent='Registrar Crédito de Horas';$('csave').textContent='Adicionar';$('ccancel').classList.add('hide');$('cerr').textContent=''}
 $('ccancel').onclick=resetC;
 $('csave').onclick=()=>{
   const h=parseInt($('ch').value)||0,act=$('ca').value.trim(),d=$('cd').value;
-  const e=!d?'Informe a data.':(!editCid&&d.slice(0,7)!==today().slice(0,7))?'A data deve ser do mês vigente.':h<=0?'Informe o crédito de horas.':!act?'Informe a atividade.':'';
+  const e=!d?'Informe a data.':(!editCid&&!okD(d))?dmsg():h<=0?'Informe o crédito de horas.':!act?'Informe a atividade.':'';
   $('cerr').textContent=e;if(e)return;
   const was=goalDone(),r={date:d,h,act};
   if(editCid)credits=credits.map(c=>c.id===editCid?{...c,...r}:c);else credits.push({id:Date.now(),...r});
@@ -454,29 +478,53 @@ $('csave').onclick=()=>{
 const saveMeta=()=>{meta={h:$('gh').value,p:$('gp').value};try{localStorage.setItem('tempo-meta',JSON.stringify(meta))}catch(e){}render()};
 $('gh').onchange=saveMeta;$('gp').onchange=saveMeta;
 const bm=t=>$('bkm').textContent=t;
-$('bkg').onclick=async()=>{
-  const txt=JSON.stringify({app:'registro-de-tempo',v:3,items,studies,credits,meta},null,1);
-  $('bkt').value=txt;setBk();render();
-  try{
-    const u=URL.createObjectURL(new Blob([txt],{type:'application/json'}));
-    const l=document.createElement('a');l.href=u;l.download='backup-tempo-'+today()+'.json';
-    document.body.appendChild(l);l.click();l.remove();setTimeout(()=>URL.revokeObjectURL(u),2000);
-    bm('Backup gerado. Verifique a pasta de downloads.');
-  }catch(e){bm('Não foi possível baixar o arquivo. Abra "Usar texto" abaixo e copie o conteúdo.');$('bkt').closest('details').open=true}
+let bkTxt='';
+const bsh=$('bsh'),bkName=()=>'backup-tempo-'+today()+'.json',bkClose=()=>bsh.classList.add('hide');
+function bkFile(){for(const t of ['application/json','text/plain']){try{const f=new File([bkTxt],bkName(),{type:t});if(navigator.canShare&&navigator.canShare({files:[f]}))return f}catch(e){}}return null}
+const bkDone=t=>{setBk();render();bm(t)};
+$('bkg').onclick=()=>{
+  bkTxt=JSON.stringify({app:'registro-de-tempo',v:3,items,studies,credits,meta},null,1);
+  $('bkt').value=bkTxt;
+  $('bs1').classList.toggle('hide',!(typeof navigator.share==='function'&&bkFile()));
+  bsh.classList.remove('hide');$('bs2').focus();
 };
+$('bs1').onclick=async()=>{
+  const f=bkFile();if(!f)return;bkClose();
+  try{await navigator.share({files:[f],title:'Backup do Relatório de Campo'});bkDone('Backup enviado. Confira se ele chegou ao destino escolhido.')}
+  catch(e){bm(e&&e.name==='AbortError'?'Backup cancelado. Nada foi salvo.':'Não foi possível compartilhar. Tente \u201cBaixar no aparelho\u201d.')}
+};
+$('bs2').onclick=()=>{
+  bkClose();
+  try{
+    const u=URL.createObjectURL(new Blob([bkTxt],{type:'application/json'}));
+    const l=document.createElement('a');l.href=u;l.download=bkName();
+    document.body.appendChild(l);l.click();l.remove();setTimeout(()=>URL.revokeObjectURL(u),2000);
+    bkDone('Backup baixado. Verifique a pasta de downloads.');
+  }catch(e){bm('Não foi possível baixar o arquivo. Abra \u201cUsar texto\u201d abaixo e copie o conteúdo.');$('bkt').closest('details').open=true}
+};
+$('bs3').onclick=async()=>{
+  bkClose();let ok=false;
+  try{await navigator.clipboard.writeText(bkTxt);ok=true}catch(e){}
+  if(!ok){try{const t=$('bkt');t.closest('details').open=true;t.focus();t.select();ok=document.execCommand('copy')}catch(e){}}
+  if(ok)bkDone('Texto copiado. Cole em um lugar seguro, como suas notas.');
+  else{$('bkt').closest('details').open=true;bm('Não consegui copiar sozinha. Toque no texto abaixo, copie e guarde.')}
+};
+$('bsx').onclick=bkClose;
+bsh.addEventListener('click',e=>{if(e.target===bsh)bkClose()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')bkClose()});
 function restore(txt){
   try{
     const d=JSON.parse(txt);
     if(!d||!Array.isArray(d.items))throw 0;
-    const ids=new Set(items.map(i=>i.id));let n=0;
-    d.items.forEach(i=>{if(i&&i.date&&i.act&&i.min>0&&!ids.has(i.id)){items.push({id:i.id||Date.now()+n,date:i.date,min:+i.min,act:String(i.act),com:String(i.com||'')});n++}});
-    if(Array.isArray(d.studies))d.studies.forEach(x=>{if(x&&/^\d{4}-\d{2}$/.test(x.ym)&&x.n>=0&&!studies.find(z=>z.ym===x.ym)){studies.push({ym:x.ym,n:+x.n});n++}});
-    if(Array.isArray(d.credits))d.credits.forEach(x=>{if(x&&x.date&&x.act&&x.h>0&&!credits.find(z=>z.id===x.id)){credits.push({id:x.id||Date.now()+n,date:x.date,h:+x.h,act:String(x.act)});n++}});
+    const ids=new Set(items.map(i=>i.id));let n=0,sk=0;
+    d.items.forEach(i=>{if(i&&i.date&&i.act&&i.min>0){if(!ids.has(i.id)){items.push({id:i.id||Date.now()+n,date:i.date,min:+i.min,act:String(i.act),com:String(i.com||'')});n++}else sk++}});
+    if(Array.isArray(d.studies))d.studies.forEach(x=>{if(x&&/^\d{4}-\d{2}$/.test(x.ym)&&x.n>=0){if(!studies.find(z=>z.ym===x.ym)){studies.push({ym:x.ym,n:+x.n});n++}else sk++}});
+    if(Array.isArray(d.credits))d.credits.forEach(x=>{if(x&&x.date&&x.act&&x.h>0){if(!credits.find(z=>z.id===x.id)){credits.push({id:x.id||Date.now()+n,date:x.date,h:+x.h,act:String(x.act)});n++}else sk++}});
     persistC();
     persistS();
     if(d.meta&&!meta.h){meta=d.meta}
     try{localStorage.setItem('tempo-meta',JSON.stringify(meta))}catch(e){}
-    persist();render();bm(n+' registro(s) restaurado(s).');
+    persist();render();bm(n+' registro(s) restaurado(s)'+(sk?'; '+sk+' já existia(m) e foi(ram) mantido(s).':'.'));
   }catch(e){bm('Backup inválido. Verifique o arquivo ou o texto.')}
 }
 $('bkr').onclick=()=>$('bkf').click();
@@ -494,7 +542,7 @@ $('sl').onclick=e=>{
   const d=e.target.dataset;
   if(d.sed){const x=studies.find(z=>z.ym===d.sed);$('em').value=x.ym;$('en').value=x.n;$('et').textContent='Editar Estudos do Mês';scrollTo(0,0)}
   else if(d.sid){pendS=d.sid;render()}
-  else if(d.sok){studies=studies.filter(z=>z.ym!==d.sok);pendS=null;persistS();render()}
+  else if(d.sok){const rm=studies.find(z=>z.ym===d.sok);studies=studies.filter(z=>z.ym!==d.sok);pendS=null;persistS();render();if(rm)toastU('Estudos excluídos.',()=>{studies=studies.filter(z=>z.ym!==rm.ym);studies.push(rm);persistS();render()})}
   else if(d.sno){pendS=null;render()}
 };
 document.querySelectorAll('.sw').forEach(b=>b.onclick=()=>{cor=b.dataset.cor;try{localStorage.setItem('tempo-cor',cor)}catch(e){}applyCor()});
@@ -514,6 +562,7 @@ applyModo();
 try{if('serviceWorker' in navigator&&location.protocol.indexOf('http')===0)navigator.serviceWorker.register('sw.js')}catch(e){}
 applyCor();
 render();
+try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persisted().then(p=>{if(!p)return navigator.storage.persist()}).catch(()=>{})}catch(e){}
 /*CN*/
 (function(){
   const API='https://countapi.mileshilliard.com/api/v1/',KEY='ddsv_tech_relatorio_de_campo_usuarios';
