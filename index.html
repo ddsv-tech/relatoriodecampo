@@ -170,8 +170,8 @@ main>footer{font-weight:400;animation:fb 3.6s ease-in-out .5s forwards}
   <details><summary>Como usar</summary><ul><li><b>Registrar Atividade:</b> data, horas, atividade e companheiro.</li><li><b>Registrar Estudos do Mês:</b> total de estudos dirigidos no mês.</li><li><b>Registrar Crédito de Horas:</b> soma na meta, mas não nas horas.</li><li><b>Visão Geral:</b> mês atual, média e velocímetro da meta.</li><li><b>Relatório de Atividades:</b> filtre o mês e veja os gráficos e a tabela.</li><li><b>Backup:</b> escolha onde salvar (Drive, WhatsApp, pastas) e restaure em outro aparelho.</li></ul></details>
   <details><summary>Seus dados e privacidade</summary><p>Seus registros ficam só no seu aparelho, e ninguém os vê. O app só conta quantos aparelhos já o usaram, sem coletar nome, localização ou qualquer dado pessoal.</p><p><b>Atenção:</b> se você limpar o navegador ou trocar de celular, os dados se perdem. Faça backup com frequência.</p></details>
   <details><summary>Instalar no celular</summary><p><b>Android (Chrome):</b> toque em ⋮ e em <i>Instalar app</i>.</p><p><b>iPhone (Safari):</b> toque em Compartilhar e em <i>Adicionar à Tela de Início</i>.</p></details>
-  <div id="cnw" class="hide"><div class="card" style="display:flex;align-items:center;justify-content:space-between;border:2px solid var(--ac);margin:10px 0 0"><span>Usuários do app</span><b id="cn" style="font-size:1.4rem;color:var(--ac)">—</b></div></div>
-  <div class="mut" style="text-align:center;font-size:.8rem;margin-top:14px">Versão 1.9 · atualizado em outubro de 2026</div>
+  <div id="cnw" class="hide"><div class="card" style="border:2px solid var(--ac);margin:10px 0 0"><div style="display:flex;align-items:center;justify-content:space-between"><span>Usuários do app</span><b id="cn" style="font-size:1.4rem;color:var(--ac)">—</b></div><div style="display:flex;align-items:center;justify-content:space-between;margin-top:6px"><span>Visitas hoje</span><b id="cvd" style="font-size:1.4rem;color:var(--ac)">—</b></div><div style="display:flex;align-items:center;justify-content:space-between;margin-top:6px"><span>Visitas totais</span><b id="cvt" style="font-size:1.4rem;color:var(--ac)">—</b></div></div></div>
+  <div class="mut" style="text-align:center;font-size:.8rem;margin-top:14px">Versão 2.1 · atualizado em outubro de 2026</div>
 </section>
 
 <section id="bk" class="hide">
@@ -484,9 +484,16 @@ function bkShareText(why){
     ()=>bkDone('Backup enviado como texto. Confira se chegou ao destino escolhido.'),
     e=>{if(e&&e.name==='AbortError')bm('Backup cancelado. Nada foi salvo.');else bkFall(why+'; texto: '+(e&&e.name||'erro'))});
 }
-$('bkg').onclick=()=>{
+async function bkClaude(){try{if(window.claude&&typeof window.claude.use==='function')return await window.claude.use('downloads')}catch(e){}return null}
+$('bkg').onclick=async()=>{
   bkTxt=JSON.stringify({app:'registro-de-tempo',v:3,items,studies,credits,meta},null,1);
   $('bkt').value=bkTxt;
+  const dl=await bkClaude();
+  if(dl){
+    try{await dl.save({filename:bkName(),data:bkTxt});bkDone('Backup salvo. Confira o arquivo no destino escolhido.')}
+    catch(e){bm(e&&e.code==='declined'?'Backup cancelado. Nada foi salvo.':'Não foi possível salvar. Abra \u201cUsar texto\u201d abaixo e copie o conteúdo.')}
+    return;
+  }
   if(typeof navigator.share!=='function'){bkFall('sem compartilhar, https='+window.isSecureContext);return}
   const f=bkFile();
   if(f)navigator.share({files:[f],title:'Backup do Relatório de Campo'}).then(
@@ -549,13 +556,15 @@ try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persisted(
 (function(){
   const API='https://countapi.mileshilliard.com/api/v1/',KEY='ddsv_tech_relatorio_de_campo_usuarios';
   const ls=(k,v)=>{try{if(v===undefined)return localStorage.getItem(k);if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){}return null};
-  const call=op=>fetch(API+op+'/'+KEY,{cache:'no-store'}).then(r=>{if(r.status===404&&op==='get')return{value:0};if(!r.ok)throw 0;return r.json()}).then(d=>{const n=Number(d&&d.value);if(!isFinite(n))throw 0;return n});
+  const call=(op,key)=>fetch(API+op+'/'+(key||KEY),{cache:'no-store'}).then(r=>{if(r.status===404&&op==='get')return{value:0};if(!r.ok)throw 0;return r.json()}).then(d=>{const n=Number(d&&d.value);if(!isFinite(n))throw 0;return n});
+  const VT=KEY.replace('_usuarios','_visitas_total'),VD=KEY.replace('_usuarios','_visitas_'+today());
+  try{if(sessionStorage.getItem('tempo-visita')!=='1'){sessionStorage.setItem('tempo-visita','1');call('hit',VT).catch(()=>{});call('hit',VD).catch(()=>{})}}catch(e){}
   let tmr=null;
   const hideC=()=>{clearTimeout(tmr);tmr=null;$('cnw').classList.toggle('hide',true)};
   const showC=()=>{
-    $('cn').textContent='—';$('cnw').classList.toggle('hide',false);
+    ['cn','cvd','cvt'].forEach(i=>$(i).textContent='—');$('cnw').classList.toggle('hide',false);
     clearTimeout(tmr);tmr=setTimeout(hideC,3000);
-    call('get').then(n=>{$('cn').textContent=n.toLocaleString('pt-BR')}).catch(()=>{});
+    [['cn',KEY],['cvd',VD],['cvt',VT]].forEach(([i,k])=>call('get',k).then(n=>{$(i).textContent=n.toLocaleString('pt-BR')}).catch(()=>{}));
   };
   ls('tempo-admin',null);
   try{if(ls('tempo-contou')!=='1')call('hit').then(()=>ls('tempo-contou','1')).catch(()=>{})}catch(e){}
