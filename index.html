@@ -110,6 +110,7 @@ main>footer{font-weight:400;animation:fb 3.6s ease-in-out .5s forwards}
 .tot .cp{font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
 .tot .big{font-size:1.9rem;font-weight:800;color:var(--ac);line-height:1.1}
 .tot .sm{font-size:.82rem;color:var(--mut)}
+.tot .sm span{white-space:nowrap}
 .alert.hide{display:none}
 .toast button{margin-left:12px;padding:6px 12px;border:0;border-radius:10px;background:var(--acx);color:var(--ac);font:inherit;font-weight:700;cursor:pointer}
 .tot svg{width:34px;height:34px;flex:none;fill:none;stroke:var(--ac);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
@@ -137,7 +138,7 @@ main>footer{font-weight:400;animation:fb 3.6s ease-in-out .5s forwards}
 
 <section id="menu" class="hide">
   <div id="bal" class="alert hide"><span id="balt"></span><button type="button" id="balb">Fazer backup</button></div>
-  <div class="tot"><div><div class="cp" id="tl">Total do mês</div><div class="big" id="tot">0h 00min</div><div class="sm"><span id="cnt">0 registros no mês</span> · <span id="tcr">Crédito: 0h</span></div></div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+  <div class="tot"><div><div class="cp" id="tl">Total do mês</div><div class="big" id="tot">0h 00min</div><div class="sm"><span id="cnt">0 registros no mês</span> · <span id="tcr">Crédito: 0h</span> · <span id="tst">Estudos: 0</span></div></div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
   <div class="mgrid">
     <div class="mcol"><div class="gh">Registrar</div>
       <button class="mb p" data-go="home"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span class="mt">Registrar Atividade</span><span class="ms">Data, horas e companheiro</span></button>
@@ -171,7 +172,7 @@ main>footer{font-weight:400;animation:fb 3.6s ease-in-out .5s forwards}
   <details><summary>Seus dados e privacidade</summary><p>Seus registros ficam só no seu aparelho, e ninguém os vê. O app só conta quantos aparelhos já o usaram, sem coletar nome, localização ou qualquer dado pessoal.</p><p><b>Atenção:</b> se você limpar o navegador ou trocar de celular, os dados se perdem. Faça backup com frequência.</p></details>
   <details><summary>Instalar no celular</summary><p><b>Android (Chrome):</b> toque em ⋮ e em <i>Instalar app</i>.</p><p><b>iPhone (Safari):</b> toque em Compartilhar e em <i>Adicionar à Tela de Início</i>.</p></details>
   <div id="cnw" class="hide"><div class="card" style="border:2px solid var(--ac);margin:10px 0 0"><div style="display:flex;align-items:center;justify-content:space-between"><span>Usuários do app</span><b id="cn" style="font-size:1.4rem;color:var(--ac)">—</b></div><div style="display:flex;align-items:center;justify-content:space-between;margin-top:6px"><span>Visitas hoje</span><b id="cvd" style="font-size:1.4rem;color:var(--ac)">—</b></div><div style="display:flex;align-items:center;justify-content:space-between;margin-top:6px"><span>Visitas totais</span><b id="cvt" style="font-size:1.4rem;color:var(--ac)">—</b></div></div></div>
-  <div class="mut" style="text-align:center;font-size:.8rem;margin-top:14px">Versão 2.1 · atualizado em outubro de 2026</div>
+  <div class="mut" style="text-align:center;font-size:.8rem;margin-top:14px">Versão 2.2 · atualizado em outubro de 2026</div>
 </section>
 
 <section id="bk" class="hide">
@@ -212,6 +213,8 @@ main>footer{font-weight:400;animation:fb 3.6s ease-in-out .5s forwards}
     <div class="mut" id="gl" style="text-align:center;margin-top:6px"></div>
     <div id="gcg" class="congrats hide">👏👏👏 Parabéns! Você atingiu a meta. Continue assim!</div>
   </div>
+  <div class="cap" style="margin:18px 2px 8px">Meses fechados</div>
+  <div id="dmc"></div>
 </section>
 
 <section id="home" class="hide">
@@ -363,6 +366,7 @@ function render(){
   const mc=credits.filter(c=>c.date.slice(0,7)===cm).sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);
   $('ctl').textContent='Crédito de '+MES[+cm.slice(5)-1]+' de '+cm.slice(0,4);
   $('tcr').textContent='Crédito: '+mc.reduce((s,c)=>s+c.h,0)+'h';
+  const sm0=studies.find(x=>x.ym===cm);$('tst').textContent='Estudos: '+(sm0?sm0.n:0);
   $('ctot').textContent=mc.reduce((s,c)=>s+c.h,0)+'h';$('ccnt').textContent=mc.length+(mc.length===1?' registro':' registros')+' no mês';
   $('crec').innerHTML=mc.length?`<div><span>${fd(mc[0].date)} · ${esc(mc[0].act)}</span><span>${mc[0].h}h</span></div>`:'Nenhum registro neste mês.';
   // painel
@@ -374,6 +378,9 @@ function render(){
   $('da').textContent=nc>0?Math.round(closed/nc/60)+'h':'—';
   $('dal').textContent=nc>0?`Set/${cy} – Ago/${cy+1} · ${nc} ${nc>1?'meses fechados':'mês fechado'}`:'Ainda não há meses fechados neste ano.';
   const se=studies.find(x=>x.ym===t0.slice(0,7));$('dme').textContent=se?`Estudos dirigidos no mês: ${se.n}`:'';
+  const cmo=t0.slice(0,7),cms=[...new Set([...items.map(i=>i.date.slice(0,7)),...credits.map(c=>c.date.slice(0,7)),...studies.map(x=>x.ym)])].filter(ym=>ym<cmo).sort().reverse();
+  $('dmc').innerHTML=cms.length?cms.map(ym=>{const[y,m]=ym.split('-'),mi2=items.filter(i=>i.date.slice(0,7)===ym),ch=credits.filter(c=>c.date.slice(0,7)===ym).reduce((s,c)=>s+c.h,0),sx=studies.find(x=>x.ym===ym);
+    return `<div class="tot"><div><div class="cp">Total de ${MES[+m-1]} de ${y}</div><div class="big">${fmt(mi2.reduce((s,i)=>s+i.min,0))}</div><div class="sm"><span>${mi2.length} ${mi2.length===1?'registro':'registros'}</span> · <span>Crédito: ${ch}h</span> · <span>Estudos: ${sx?sx.n:0}</span></div></div><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>`}).join(''):'<div class="mut">Ainda não há meses fechados.</div>';
   const gm=(parseFloat(meta.h)||0)*60,hm=meta.p==='y'?yt0:mt,cc=credits.filter(c=>meta.p==='y'?yOf(c.date)===cy:c.date.slice(0,7)===t0.slice(0,7)).reduce((s,c)=>s+c.h,0)*60,cur=hm+cc;
   $('gh').value=meta.h;$('gp').value=meta.p;
   $('gr').textContent=gm<=0?'Defina uma meta em horas.':cur>=gm?`Meta atingida! 👏👏👏 (${fmt(cur)} de ${fmt(gm)})`:`Faltam ${fmt(gm-cur)} (${fmt(cur)} de ${fmt(gm)})`;
